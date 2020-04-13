@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ChatServer.Controllers
 {
@@ -8,6 +9,7 @@ namespace ChatServer.Controllers
         {
         }
 
+        [Authorize]
         [HttpGet]
         [Route("index")]
         public IActionResult Index()
