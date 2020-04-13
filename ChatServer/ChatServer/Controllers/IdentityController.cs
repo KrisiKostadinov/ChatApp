@@ -50,17 +50,23 @@ namespace ChatServer.Controllers
         [Route(nameof(Login))]
         public async Task<ActionResult<string>> Login(LoginRequestModel model)
         {
+            var errorModel = new ErrorModel
+            {
+                Messages = new string[] { "Invalid username or password." }
+            };
+
             var user = await this.userManager.FindByNameAsync(model.UserName);
+
             if (user == null)
             {
-                return Unauthorized();
+                return Unauthorized(errorModel);
             }
 
             var passwordValid = await this.userManager.CheckPasswordAsync(user, model.Password);
 
             if (passwordValid == null)
             {
-                return Unauthorized();
+                return Unauthorized(errorModel);
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
