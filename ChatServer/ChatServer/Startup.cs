@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ChatServer.Data.Extentions;
+using ChatServer.Services;
 
 namespace ChatServer
 {
@@ -72,6 +73,8 @@ namespace ChatServer
                                       builder.WithOrigins("http://localhost:4200");
                                   });
             });
+
+            services.AddTransient<IUserService, UsersService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
