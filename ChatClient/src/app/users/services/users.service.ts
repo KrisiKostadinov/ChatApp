@@ -29,7 +29,16 @@ export class UsersService {
     localStorage.setItem("token", token);
   }
 
-  getToken(token: string) {
+  getToken() {
     return localStorage.getItem("token");
+  }
+
+  get isAuthenticated():boolean {
+    console.log(0);
+
+    if (this.getToken()) {
+      return true;
+    }
+    return false;
   }
 }
