@@ -2,21 +2,21 @@
     <div class="col-lg-4"></div>
     <div class="col-lg-4">
         <h2 class="text-center">Register</h2>
-        <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="form">
             <div class="alert alert-danger" *ngIf="identityErrors">
                 <div *ngFor="let error of identityErrors">{{ error.description }}</div>
             </div>
             <div class="form-group">
                 <label for="username">User Name</label>
                 <input type="text" class="form-control" formControlName="username" id="username" placeholder="Your user name...">
-                <div class="text-danger" *ngIf="username.touched && username.errors?.required">
+                <div class="error" *ngIf="username.touched && username.errors?.required">
                     This field is required!
                 </div>
             </div>
             <div class="form-group">
                 <label for="username">Email</label>
                 <input type="email" class="form-control" formControlName="email" id="email" placeholder="Your email...">
-                <div class="text-danger" *ngIf="email.touched && email.errors?.required">
+                <div class="error" *ngIf="email.touched && email.errors?.required">
                     This field is required!
                 </div>
                 <div class="text-danger" *ngIf="email.touched && email.errors?.email">
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" formControlName="password" id="password" placeholder="Your password...">
-                <div class="text-danger" *ngIf="password.touched && password.errors?.required">
+                <div class="error" *ngIf="password.touched && password.errors?.required">
                     This field is required!
                 </div>
                 <div class="text-danger" *ngIf="password.touched && password.errors?.minlength">

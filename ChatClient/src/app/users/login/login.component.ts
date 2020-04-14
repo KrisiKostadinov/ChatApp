@@ -25,9 +25,20 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get username() {
+    return this.loginForm.get('username');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
   login() {
     this.usersService.login(this.loginForm.value).subscribe(data => {
       this.usersService.saveToken(data['token']);
+
+      this.usersService.setUserData(JSON.stringify(data));
+
       this.router.navigate(['']);
     }, error => console.log(error));
   }

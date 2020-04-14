@@ -20,18 +20,7 @@ namespace ChatServer.Controllers
         public async Task<IEnumerable<UserViewModel>> GetAllUsers()
         {
             var users = await this.userService.GetAllUsersAsync();
-            var userViewModels = new List<UserViewModel>();
-
-            foreach (var user in users)
-            {
-                userViewModels.Add(new UserViewModel
-                {
-                    UserName = user.UserName,
-                    Email = user.Email
-                });
-            }
-
-            return userViewModels;
+            return users;
         }
     }
 }

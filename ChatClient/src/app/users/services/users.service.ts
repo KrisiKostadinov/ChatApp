@@ -10,6 +10,7 @@ export class UsersService {
 
   loginPath: string = environment.apiUrl + 'identity/login';
   registerPath: string = environment.apiUrl + 'identity/register';
+  getAllUsersPath: string = environment.apiUrl + 'users/all';
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +34,18 @@ export class UsersService {
     return localStorage.getItem("token");
   }
 
+  setUserData(user) {
+    localStorage.setItem("user", user);
+  }
+
+  get getUserData() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
+
+  logout() {
+    localStorage.clear();
+  }
+
   get isAuthenticated():boolean {
     console.log(0);
 
@@ -41,4 +54,9 @@ export class UsersService {
     }
     return false;
   }
+
+  getAllUsers() {
+    return this.http.get(this.getAllUsersPath);
+  }
+
 }

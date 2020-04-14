@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+.form {
+    background-color: #3988ff;
+    padding: 2em;
+    box-shadow: 0 0 10px 10px #22222222;
+    border-radius: 14px;
+    color: #ffffff;
+}
+
+.error {
+    color: #ff0000;
+    text-shadow: 0 0 1px;
+}

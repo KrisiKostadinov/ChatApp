@@ -1,5 +1,6 @@
 ﻿using ChatServer.Data.Models;
 using ChatServer.Data.Models.Identity;
+using ChatServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -15,13 +16,16 @@ namespace ChatServer.Controllers
     public class IdentityController : ApiController
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
         private readonly AppSettings appSettings;
 
         public IdentityController(
             UserManager<ApplicationUser> userManager,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings,
+            IUserService userService)
         {
             this.userManager = userManager;
+            this.userService = userService;
             this.appSettings = appSettings.Value;
         }
 
@@ -64,23 +68,13 @@ namespace ChatServer.Controllers
                 return Unauthorized();
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encriptedToken = tokenHandler.WriteToken(token);
+            var token = this.userService.GenerateJWTToken(this.appSettings.Secret, user);
+            
             return new ResponseLoginModel
             {
-                Token = encriptedToken
+                Token = token,
+                Email = user.Email,
+                UserName = user.UserName,
             };
         }
     }

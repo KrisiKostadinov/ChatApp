@@ -2,14 +2,23 @@
     <div class="col-lg-4"></div>
     <div class="col-lg-4">
         <h2 class="text-center">Login</h2>
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="form-group">
               <label for="username">User name</label>
               <input type="text" class="form-control" formControlName="username" id="username" placeholder="Your user name...">
+              <div class="error" *ngIf="username.touched && username.errors?.required">
+                This field is required!
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" class="form-control" formControlName="password" id="password" placeholder="Your password...">
+              <div class="error" *ngIf="password.touched && password.errors?.required">
+                This field is required!
+              </div>
+              <div class="text-danger" *ngIf="password.touched && password.errors?.minlength">
+                  The password must be that 6 symbols.
+              </div>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
