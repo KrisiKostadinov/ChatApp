@@ -27,13 +27,13 @@ namespace ChatServer.Controllers
 
         [HttpPost]
         [Route(nameof(Register))]
-        public async Task<IActionResult> Register(RegisterRequestModel model)
+        public async Task<ActionResult> Register(RegisterRequestModel model)
         {
             var user = new ApplicationUser
             {
-                UserName = model.UserName,
                 Email = model.Email,
                 Birthday = model.Birthday,
+                UserName = model.UserName
             };
 
             var result = await this.userManager.CreateAsync(user, model.Password);
@@ -48,25 +48,20 @@ namespace ChatServer.Controllers
 
         [HttpPost]
         [Route(nameof(Login))]
-        public async Task<ActionResult<string>> Login(LoginRequestModel model)
+        public async Task<ActionResult<ResponseLoginModel>> Login(LoginRequestModel model)
         {
-            var errorModel = new ErrorModel
-            {
-                Messages = new string[] { "Invalid username or password." }
-            };
-
             var user = await this.userManager.FindByNameAsync(model.UserName);
 
             if (user == null)
             {
-                return Unauthorized(errorModel);
+                return Unauthorized();
             }
 
             var passwordValid = await this.userManager.CheckPasswordAsync(user, model.Password);
 
             if (passwordValid == null)
             {
-                return Unauthorized(errorModel);
+                return Unauthorized();
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -83,7 +78,10 @@ namespace ChatServer.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encriptedToken = tokenHandler.WriteToken(token);
-            return encriptedToken;
+            return new ResponseLoginModel
+            {
+                Token = encriptedToken
+            };
         }
     }
 }

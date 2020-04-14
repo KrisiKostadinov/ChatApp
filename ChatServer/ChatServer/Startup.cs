@@ -64,6 +64,14 @@ namespace ChatServer
                     ValidateAudience = false
                 };
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "policy",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200");
+                                  });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -86,6 +94,7 @@ namespace ChatServer
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors("policy");
 
             app.ApplyMigrations();
 

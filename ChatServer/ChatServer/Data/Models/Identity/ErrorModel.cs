@@ -2,8 +2,6 @@
 {
     public class ErrorModel
     {
-        public string Property { get; set; }
-
-        public string[] Messages { get; set; }
+        public string[] Errors { get; set; }
     }
 }
