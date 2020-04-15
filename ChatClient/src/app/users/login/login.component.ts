@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.usersService.login(this.loginForm.value).subscribe(data => {
       this.usersService.saveToken(data['token']);
 
-      this.usersService.setUserData(JSON.stringify(data));
+      this.usersService.setUserData(data);
 
       this.router.navigate(['']);
     }, error => console.log(error));

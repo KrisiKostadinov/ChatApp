@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row my-4">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="card shadow rounded">
+                <div class="card card-header">
+                    <h4 class="text-center">User</h4>
+                </div>
+                <div class="card-body">
+                    <ul *ngIf="user">
+                        <li>
+                            <span>User name</span>
+                            <span>{{ user.userName ? user.userName : "No information" }}</span>
+                        </li>
+                        <li>
+                            <span>Email</span>
+                            <span>{{ user.email }}</span>
+                        </li>
+                        <li>
+                            <span>Age</span>
+                            <span>{{ user.age }}</span>
+                            <span *ngIf="user.age">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>City</span>
+                            <span>{{ user.city }}</span>
+                            <span *ngIf="!user.city">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>Country</span>
+                            <span>{{ user.country }}</span>
+                            <span *ngIf="!user.country">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>Education</span>
+                            <span>{{ user.education }}</span>
+                            <span *ngIf="!user.education">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>HighSchool</span>
+                            <span>{{user.highSchool }}</span>
+                            <span *ngIf="!user.highSchool">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>Job</span>
+                            <span>{{ user.job }}</span>
+                            <span *ngIf="!user.job">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>Previous job</span>
+                            <span>{{ user.previousJob }}</span>
+                            <span *ngIf="!user.previousJob">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>Skills</span>
+                            <span>{{ user.skills }}</span>
+                            <span *ngIf="!user.skills">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                        <li>
+                            <span>University</span>
+                            <span>{{ user.university }}</span>
+                            <span *ngIf="!user.university">
+                                <button class="btn btn-link">Add</button>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>

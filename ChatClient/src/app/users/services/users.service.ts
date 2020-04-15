@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +12,20 @@ export class UsersService {
   loginPath: string = environment.apiUrl + 'identity/login';
   registerPath: string = environment.apiUrl + 'identity/register';
   getAllUsersPath: string = environment.apiUrl + 'users/all';
+  byId: string = environment.apiUrl + 'users/';
 
   constructor(private http: HttpClient) { }
 
-  login(data):Observable<any> {
+  login(data):Observable<User> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post(this.loginPath, data, { headers: headers });
+    return this.http.post<User>(this.loginPath, data, { headers: headers });
   }
 
-  register(data):Observable<any> {
+  register(data):Observable<User> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post(this.registerPath, data, { headers: headers });
+    return this.http.post<User>(this.registerPath, data, { headers: headers });
   }
 
   saveToken(token: string) {
@@ -34,8 +36,8 @@ export class UsersService {
     return localStorage.getItem("token");
   }
 
-  setUserData(user) {
-    localStorage.setItem("user", user);
+  setUserData(user: User) {
+    localStorage.setItem("user", JSON.stringify(user));
   }
 
   get getUserData() {
@@ -55,8 +57,13 @@ export class UsersService {
     return false;
   }
 
-  getAllUsers() {
-    return this.http.get(this.getAllUsersPath);
+  getAllUsers(): Observable<User> {
+    return this.http.get<User>(this.getAllUsersPath);
   }
 
+  getUserById(id: string): Observable<User> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    return this.http.get<User>(this.byId + id, { headers: headers });
+  }
 }
