@@ -1,15 +1,7 @@
-﻿using ChatServer.Models.User;
-using System.Collections.Generic;
-
-namespace ChatServer.Data.Models.User
+﻿namespace ChatServer.Data.Models.User
 {
     public class UserViewModel
     {
-        public UserViewModel()
-        {
-            this.Skills = new List<SkillViewModel>();
-        }
-
         public string Id { get; set; }
 
         public string UserName { get; set; }
@@ -28,7 +20,7 @@ namespace ChatServer.Data.Models.User
 
         public string Education { get; set; }
 
-        public virtual IEnumerable<SkillViewModel> Skills { get; set; }
+        public string Skills { get; set; }
 
         public string HighSchool { get; set; }
 

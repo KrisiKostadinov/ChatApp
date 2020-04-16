@@ -7,11 +7,6 @@ namespace ChatServer.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser()
-        {
-            this.Skills = new List<Skill>();
-        }
-
         public DateTime Birthday { get; set; }
 
         public string City { get; set; }
@@ -26,7 +21,7 @@ namespace ChatServer.Data.Models
 
         public string Education { get; set; }
 
-        public IEnumerable<Skill> Skills { get; set; }
+        public string Skills { get; set; }
 
         public string HighSchool { get; set; }
 

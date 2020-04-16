@@ -83,20 +83,8 @@ namespace ChatServer.Services
                     Job = u.Job,
                     PreviousJob = u.PreviousJob,
                     University = u.University,
+                    Skills = u.Skills
                 }).ToListAsync();
-
-            var skills = await this.context.Skills.ToListAsync();
-
-            foreach (var user in users)
-            {
-                user.Skills = skills
-                    .Where(u => u.UserId == user.Id)
-                    .Select(s => new SkillViewModel
-                    {
-                        Content = s.Content,
-                        UserId = s.UserId,
-                    }).ToList();
-            }
 
             return users;
         }

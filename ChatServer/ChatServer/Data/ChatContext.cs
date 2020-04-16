@@ -15,8 +15,6 @@ namespace ChatServer.Data
 
         public DbSet<ApplicationUser> Users { get; set; }
 
-        public DbSet<SkillViewModel> Skills { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
