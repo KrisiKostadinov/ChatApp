@@ -10,5 +10,7 @@ namespace ChatServer.Services
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
 
         string GenerateJWTToken(string secret, ApplicationUser user);
+
+        Task<UserViewModel> ById(string id);
     }
 }

@@ -49,8 +49,6 @@ export class UsersService {
   }
 
   get isAuthenticated():boolean {
-    console.log(0);
-
     if (this.getToken()) {
       return true;
     }

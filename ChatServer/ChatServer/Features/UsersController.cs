@@ -22,5 +22,13 @@ namespace ChatServer.Controllers
             var users = await this.userService.GetAllUsersAsync();
             return users;
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<UserViewModel> GetAllUsers(string id)
+        {
+            var user = await this.userService.ById(id);
+            return user;
+        }
     }
 }

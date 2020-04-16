@@ -7,6 +7,8 @@ import { RegisterComponent } from './register/register.component';
 import { ListAllUsersComponent } from './common/list-all-users/list-all-users.component';
 import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './common/user-details/user-details.component';
+import { AuthGourdService } from './services/auth-guard.service';
+import { UsersService } from './services/users.service';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,10 @@ import { UserDetailsComponent } from './common/user-details/user-details.compone
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule
+  ],
+  providers: [
+    UsersService,
+    AuthGourdService,
   ]
 })
 export class UsersModule { }

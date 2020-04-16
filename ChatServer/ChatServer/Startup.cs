@@ -74,7 +74,7 @@ namespace ChatServer
                                   });
             });
 
-            services.AddTransient<IUserService, UsersService>();
+            services.AddScoped<IUserService, UsersService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

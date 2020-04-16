@@ -26,7 +26,10 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    if(this.usersService.isAuthenticated) {
+      this.router.navigate(['']);
+    }
   }
 
   get username() {
