@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ChatServer.Data.Extentions;
-using ChatServer.Services;
+using ChatServer.Features.Identity.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChatServer.Common.Extentions

@@ -1,12 +1,10 @@
-﻿namespace ChatServer.Data.Models.User
+﻿namespace ChatServer.Features.User.Models
 {
-    public class UserViewModel
+    public class AboutUserRequestModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public string UserName { get; set; }
-
-        public string Email { get; set; }
+        public string UserId { get; set; }
 
         public string City { get; set; }
 

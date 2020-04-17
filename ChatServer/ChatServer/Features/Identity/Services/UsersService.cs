@@ -1,7 +1,7 @@
 ﻿using ChatServer.Data;
 using ChatServer.Data.Models;
 using ChatServer.Data.Models.User;
-using ChatServer.Models.User;
+using ChatServer.Features.User.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatServer.Services
+namespace ChatServer.Features.Identity.Services
 {
     public class UsersService : IUserService
     {
@@ -23,16 +23,15 @@ namespace ChatServer.Services
             this.context = context;
         }
 
-        public async Task<UserViewModel> ById(string id)
+        public async Task<AboutUserRequestModel> ById(string id)
         {
-            var user = await this.context
-                .Users
-                .Where(u => u.Id == id)
-                .Select(u => new UserViewModel
+            var user = await context
+                .AboutUsers
+                .Where(u => u.UserId == id)
+                .Select(u => new AboutUserRequestModel
                 {
                     Id = u.Id,
-                    Email = u.Email,
-                    UserName = u.UserName,
+                    UserId = u.UserId,
                     City = u.City,
                     Age = u.Age,
                     Country = u.Country,
@@ -45,6 +44,21 @@ namespace ChatServer.Services
                 .FirstOrDefaultAsync();
 
             return user;
+        }
+
+        public async Task<string> CreateAsync(AboutUser model, string userId)
+        {
+            context.AboutUsers.Add(model);
+            await context.SaveChangesAsync();
+
+            return userId;
+        }
+
+        public async Task<string> UpdateAsync(AboutUser model)
+        {
+            context.AboutUsers.Update(model);
+            await context.SaveChangesAsync();
+            return model.UserId;
         }
 
         public string GenerateJWTToken(string secret, ApplicationUser user)
@@ -66,15 +80,13 @@ namespace ChatServer.Services
             return encriptedToken;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
+        public async Task<IEnumerable<ApplicationUserResponseModel>> GetAllUsersAsync()
         {
-            var users = await this.context
-                .Users
-                .Select(u => new UserViewModel
+            var users = await context
+                .AboutUsers
+                .Select(u => new ApplicationUserResponseModel
                 {
-                    Id = u.Id,
-                    Email = u.Email,
-                    UserName = u.UserName,
+                    Id = u.UserId,
                     City = u.City,
                     Age = u.Age,
                     Country = u.Country,
@@ -84,7 +96,8 @@ namespace ChatServer.Services
                     PreviousJob = u.PreviousJob,
                     University = u.University,
                     Skills = u.Skills
-                }).ToListAsync();
+                })
+                .ToListAsync();
 
             return users;
         }

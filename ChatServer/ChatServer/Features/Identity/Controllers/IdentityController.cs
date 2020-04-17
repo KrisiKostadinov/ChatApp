@@ -1,17 +1,14 @@
-﻿using ChatServer.Data.Models;
+﻿using ChatServer.Controllers;
+using ChatServer.Data.Models;
 using ChatServer.Data.Models.Identity;
-using ChatServer.Services;
+using ChatServer.Data.Models.User;
+using ChatServer.Features.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatServer.Controllers
+namespace ChatServer.Features.Identity.Controllers
 {
     public class IdentityController : ApiController
     {
@@ -36,15 +33,21 @@ namespace ChatServer.Controllers
             var user = new ApplicationUser
             {
                 Email = model.Email,
-                Birthday = model.Birthday,
                 UserName = model.UserName
             };
 
-            var result = await this.userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                return StatusCode(201);
+                var aboutUser = new AboutUser
+                {
+                    UserId = user.Id,
+                };
+
+                var userId = await userService.CreateAsync(aboutUser, user.Id);
+
+                return StatusCode(201, userId);
             }
 
             return BadRequest(result.Errors);
@@ -54,22 +57,22 @@ namespace ChatServer.Controllers
         [Route(nameof(Login))]
         public async Task<ActionResult<ResponseLoginModel>> Login(LoginRequestModel model)
         {
-            var user = await this.userManager.FindByNameAsync(model.UserName);
+            var user = await userManager.FindByNameAsync(model.UserName);
 
             if (user == null)
             {
                 return Unauthorized();
             }
 
-            var passwordValid = await this.userManager.CheckPasswordAsync(user, model.Password);
+            var passwordValid = await userManager.CheckPasswordAsync(user, model.Password);
 
             if (passwordValid == null)
             {
                 return Unauthorized();
             }
 
-            var token = this.userService.GenerateJWTToken(this.appSettings.Secret, user);
-            
+            var token = userService.GenerateJWTToken(appSettings.Secret, user);
+
             return new ResponseLoginModel
             {
                 Token = token,

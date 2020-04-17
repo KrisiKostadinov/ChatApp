@@ -1,17 +1,9 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using ChatServer.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ChatServer.Data.Models;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using ChatServer.Data.Extentions;
-using ChatServer.Services;
 using AutoMapper;
 using ChatServer.Common.Extentions;
 
@@ -51,7 +43,10 @@ namespace ChatServer
             app.UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseCors("policy")
+                .UseCors(options => options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod())
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatServer.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20200416143907_AddUser")]
-    partial class AddUser
+    [Migration("20200416171543_AddAboutUser")]
+    partial class AddAboutUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,53 @@ namespace ChatServer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.0-preview.2.20159.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ChatServer.Data.Models.User.AboutUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Education")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HighSchool")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Job")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreviousJob")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Skills")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("University")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AboutUsers");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -227,37 +274,14 @@ namespace ChatServer.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Education")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HighSchool")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PreviousJob")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Skills")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("University")
-                        .HasColumnType("int");
-
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("ChatServer.Data.Models.User.AboutUser", b =>
+                {
+                    b.HasOne("ChatServer.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

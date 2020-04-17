@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ChatServer.Migrations
 {
-    public partial class AddUser : Migration
+    public partial class AddAboutUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,17 +40,7 @@ namespace ChatServer.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    Birthday = table.Column<DateTime>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    Age = table.Column<int>(nullable: true),
-                    Job = table.Column<string>(nullable: true),
-                    PreviousJob = table.Column<string>(nullable: true),
-                    Education = table.Column<string>(nullable: true),
-                    Skills = table.Column<string>(nullable: true),
-                    HighSchool = table.Column<string>(nullable: true),
-                    University = table.Column<int>(nullable: true)
+                    Discriminator = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,6 +66,35 @@ namespace ChatServer.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AboutUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    City = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    Age = table.Column<int>(nullable: false),
+                    Job = table.Column<string>(nullable: true),
+                    PreviousJob = table.Column<string>(nullable: true),
+                    Education = table.Column<string>(nullable: true),
+                    Skills = table.Column<string>(nullable: true),
+                    HighSchool = table.Column<string>(nullable: true),
+                    University = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AboutUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AboutUsers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,6 +183,11 @@ namespace ChatServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AboutUsers_UserId",
+                table: "AboutUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -205,6 +229,9 @@ namespace ChatServer.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AboutUsers");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ChatServer.Data.Models;
 using ChatServer.Data.Models.User;
+using ChatServer.Features.User.Models;
 
 namespace ChatServer.Data.Extentions
 {
@@ -8,7 +8,7 @@ namespace ChatServer.Data.Extentions
     {
         public AutoMapping()
         {
-            this.CreateMap<UserViewModel, ApplicationUser>();
+            this.CreateMap<AboutUserRequestModel, AboutUser>();
         }
     }
 }
