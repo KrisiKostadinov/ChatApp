@@ -4,7 +4,7 @@ using ChatServer.Features.User.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ChatServer.Features.Identity.Services
+namespace ChatServer.Features.User.Services
 {
     public interface IUserService
     {

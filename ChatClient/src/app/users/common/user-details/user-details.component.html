@@ -46,7 +46,7 @@
                         </li>
                         <li>
                             <span>Skills</span>
-                            <span *ngIf="user.skills.length > 0 else addTemp">{{ user.skills }}</span>
+                            <span *ngIf="user.skills else addTemp">{{ user.skills }}</span>
                         </li>
                         <li>
                             <span>University</span>

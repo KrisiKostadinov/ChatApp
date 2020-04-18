@@ -2,7 +2,7 @@
 using ChatServer.Data.Models;
 using ChatServer.Data.Models.Identity;
 using ChatServer.Data.Models.User;
-using ChatServer.Features.Identity.Services;
+using ChatServer.Features.User.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

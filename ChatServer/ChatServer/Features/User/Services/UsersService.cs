@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatServer.Features.Identity.Services
+namespace ChatServer.Features.User.Services
 {
     public class UsersService : IUserService
     {
@@ -87,6 +87,8 @@ namespace ChatServer.Features.Identity.Services
                 .Select(u => new ApplicationUserResponseModel
                 {
                     Id = u.UserId,
+                    Email = u.User.Email,
+                    UserName = u.User.UserName,
                     City = u.City,
                     Age = u.Age,
                     Country = u.Country,

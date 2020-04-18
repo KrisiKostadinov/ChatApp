@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using ChatServer.Controllers;
-using ChatServer.Data.Models;
 using ChatServer.Data.Models.User;
-using ChatServer.Features.Identity.Services;
 using ChatServer.Features.User.Models;
-using Microsoft.AspNetCore.Identity;
+using ChatServer.Features.User.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,16 +12,13 @@ namespace ChatServer.Features.User.Controllers
     public class UsersController : ApiController
     {
         private readonly IUserService userService;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
 
         public UsersController(
             IUserService userService,
-            UserManager<ApplicationUser> userManager,
             IMapper mapper)
         {
             this.userService = userService;
-            this.userManager = userManager;
             this.mapper = mapper;
         }
 
