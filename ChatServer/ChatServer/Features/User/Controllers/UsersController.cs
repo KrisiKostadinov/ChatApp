@@ -3,12 +3,15 @@ using ChatServer.Controllers;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
 using ChatServer.Features.User.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ChatServer.Features.User.Controllers
 {
+    [Authorize]
     public class UsersController : ApiController
     {
         private readonly IUserService userService;
@@ -32,7 +35,7 @@ namespace ChatServer.Features.User.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<AboutUserRequestModel> GetAllUsers(string id)
+        public async Task<AboutUserRequestModel> ById(string id)
         {
             var user = await userService.ById(id);
             return user;
@@ -43,6 +46,13 @@ namespace ChatServer.Features.User.Controllers
         public async Task<ActionResult<string>> UpdateAsync(string userId, AboutUserRequestModel model)
         {
             var aboutUserDb = await userService.ById(userId);
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (currentUserId != userId)
+            {
+                return Unauthorized();
+            }
+
             if (aboutUserDb == null)
             {
                 return NotFound();

@@ -1,12 +1,17 @@
-﻿namespace ChatServer.Features.User.Models
+﻿using ChatServer.Common.Mapping;
+using ChatServer.Data.Models.User;
+
+namespace ChatServer.Features.User.Models
 {
-    public class AboutUserRequestModel
+    public class AboutUserRequestModel : IMapFrom<AboutUser>
     {
         public int Id { get; set; }
 
         public string UserId { get; set; }
 
         public string UserUserName { get; set; }
+
+        public string UserEmail { get; set; }
 
         public string City { get; set; }
 

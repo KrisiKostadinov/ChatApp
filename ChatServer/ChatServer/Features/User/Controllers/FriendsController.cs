@@ -1,6 +1,7 @@
 ﻿using ChatServer.Controllers;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
+using ChatServer.Features.User.Models.Friend;
 using ChatServer.Features.User.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

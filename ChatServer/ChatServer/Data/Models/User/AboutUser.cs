@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ChatServer.Common.Mapping;
+using ChatServer.Features.User.Models;
+using System;
 
 namespace ChatServer.Data.Models.User
 {
-    public class AboutUser
+    public class AboutUser : IMapFrom<AboutUserRequestModel>
     {
         public int Id { get; set; }
 

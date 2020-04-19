@@ -1,4 +1,5 @@
-﻿using ChatServer.Data;
+﻿using ChatServer.Common.Mapping;
+using ChatServer.Data;
 using ChatServer.Data.Models;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
@@ -28,19 +29,7 @@ namespace ChatServer.Features.User.Services
             var user = await context
                 .AboutUsers
                 .Where(u => u.UserId == id)
-                .Select(u => new AboutUserRequestModel
-                {
-                    Id = u.Id,
-                    UserId = u.UserId,
-                    City = u.City,
-                    Age = u.Age,
-                    Country = u.Country,
-                    Education = u.Education,
-                    HighSchool = u.HighSchool,
-                    Job = u.Job,
-                    PreviousJob = u.PreviousJob,
-                    University = u.University,
-                })
+                .To<AboutUserRequestModel>()
                 .FirstOrDefaultAsync();
 
             return user;
@@ -84,21 +73,7 @@ namespace ChatServer.Features.User.Services
         {
             var users = await context
                 .AboutUsers
-                .Select(u => new ApplicationUserResponseModel
-                {
-                    Id = u.UserId,
-                    Email = u.User.Email,
-                    UserName = u.User.UserName,
-                    City = u.City,
-                    Age = u.Age,
-                    Country = u.Country,
-                    Education = u.Education,
-                    HighSchool = u.HighSchool,
-                    Job = u.Job,
-                    PreviousJob = u.PreviousJob,
-                    University = u.University,
-                    Skills = u.Skills
-                })
+                .To<ApplicationUserResponseModel>()
                 .ToListAsync();
 
             return users;

@@ -8,6 +8,7 @@ namespace ChatServer.Data.Extentions
     {
         public AutoMapping()
         {
+            this.CreateMap<AboutUser, AboutUserRequestModel>();
             this.CreateMap<AboutUserRequestModel, AboutUser>();
         }
     }

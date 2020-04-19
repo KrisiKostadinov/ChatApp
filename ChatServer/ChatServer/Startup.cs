@@ -19,7 +19,8 @@ namespace ChatServer
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-            => services
+        {
+            services
                 .AddDB(this.Configuration)
                 .AddIdentity()
                 .AddJWTAuthentication(services.GetApplicationSettings(this.Configuration))
@@ -28,6 +29,16 @@ namespace ChatServer
                 .AddServices()
                 .AddAutoMapper()
                 .AddApiControllers();
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapping());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc();
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
