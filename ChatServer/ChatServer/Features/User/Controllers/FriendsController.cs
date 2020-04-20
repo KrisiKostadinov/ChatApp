@@ -52,8 +52,30 @@ namespace ChatServer.Features.User.Controllers
         [Route("all/{userId}")]
         public async Task<ActionResult<IEnumerable<FriendResponseModel>>> GetAllById(string userId)
         {
+            if (userId == null)
+            {
+                return BadRequest();
+            }
             var friends = await this.friendsService.GetAllById(userId);
             return friends.ToList();
+        }
+
+        [HttpDelete]
+        [Route("dismiss/{userId}")]
+        public async Task<ActionResult> RemoveAsync(string userId)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId == null || userId == null || currentUserId == userId)
+            {
+                return BadRequest();
+            }
+
+            var result = await this.friendsService.RemoveAsync(userId, currentUserId);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Errors);
         }
     }
 }

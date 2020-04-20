@@ -4,6 +4,7 @@ using ChatServer.Common.Mapping;
 using ChatServer.Data;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models.Friend;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,6 +74,36 @@ namespace ChatServer.Features.User.Services
             }
 
             return friends;
+        }
+
+        public async Task<Result> RemoveAsync(string userId, string currentUserId)
+        {
+            if (userId == null || currentUserId == null)
+            {
+                return Result.Failed(
+                    new Error("Invalid operation", $"The id not be null."));
+            }
+
+            var friendId = await this.context
+                .Friends
+                .Where(
+                f => f.CurrentUserId == userId ||
+                f.OtherUserId == userId &&
+                f.CurrentUserId == currentUserId ||
+                f.OtherUserId == userId)
+                .FirstOrDefaultAsync();
+
+            if (friendId == null)
+            {
+                return Result.Failed(
+                    new Error("Invalid operation", $"These users is not friends."));
+            }
+
+            this.context.Friends.Remove(friendId);
+
+            await this.context.SaveChangesAsync();
+
+            return Result.Success;
         }
     }
 }

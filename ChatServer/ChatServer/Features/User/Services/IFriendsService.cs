@@ -11,5 +11,7 @@ namespace ChatServer.Features.User.Services
         Task<Result> AddAsync(Friend friend);
 
         Task<IEnumerable<FriendResponseModel>> GetAllById(string userId);
+
+        Task<Result> RemoveAsync(string userId, string currentUserId);
     }
 }
