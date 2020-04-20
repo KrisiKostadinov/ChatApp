@@ -5,6 +5,8 @@ using ChatServer.Features.User.Models.Friend;
 using ChatServer.Features.User.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -44,6 +46,14 @@ namespace ChatServer.Features.User.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        [Route("all/{userId}")]
+        public async Task<ActionResult<IEnumerable<FriendResponseModel>>> GetAllById(string userId)
+        {
+            var friends = await this.friendsService.GetAllById(userId);
+            return friends.ToList();
         }
     }
 }

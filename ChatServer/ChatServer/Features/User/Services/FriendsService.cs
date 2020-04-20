@@ -1,8 +1,10 @@
 ﻿using ChatServer.Common;
 using ChatServer.Common.Extentions;
+using ChatServer.Common.Mapping;
 using ChatServer.Data;
 using ChatServer.Data.Models.User;
-using Microsoft.AspNetCore.Identity;
+using ChatServer.Features.User.Models.Friend;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,6 +50,29 @@ namespace ChatServer.Features.User.Services
             this.context.Friends.Add(friend);
             await this.context.SaveChangesAsync();
             return Result.Success;
+        }
+
+        public async Task<IEnumerable<FriendResponseModel>> GetAllById(string userId)
+        {
+            var friendIds = from f in this.context
+                .Friends
+                          where f.CurrentUserId == userId || f.OtherUserId == userId
+                          select f.CurrentUserId != userId ? f.CurrentUserId : f.OtherUserId;
+
+            var friends = new List<FriendResponseModel>();
+
+            foreach (var id in friendIds)
+            {
+                var friend = this.context
+                    .AboutUsers
+                    .Where(u => u.UserId == id)
+                    .To<FriendResponseModel>()
+                    .FirstOrDefault();
+
+                friends.Add(friend);
+            }
+
+            return friends;
         }
     }
 }
