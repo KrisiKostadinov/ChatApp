@@ -28,6 +28,7 @@ namespace ChatServer
                 .AddAngularCors()
                 .AddServices()
                 .AddAutoMapper()
+                .AddSwagger()
                 .AddApiControllers();
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -52,6 +53,7 @@ namespace ChatServer
             }
 
             app.UseRouting()
+                .UseSwaggerUI()
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseCors(options => options
