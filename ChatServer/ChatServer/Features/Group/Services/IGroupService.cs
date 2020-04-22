@@ -16,5 +16,7 @@ namespace ChatServer.Features.Group.Services
         Task<GroupResponseModel> ById(int id);
 
         Task<Result> EditAsync(int id, Group group);
+
+        Task<Result> Dismiss(int id);
     }
 }

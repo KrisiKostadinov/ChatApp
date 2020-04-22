@@ -54,6 +54,24 @@ namespace ChatServer.Features.Group.Services
             return group;
         }
 
+        public async Task<Result> Dismiss(int id)
+        {
+            var group = await this.context
+                .Groups
+                .Where(g => g.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (group == null)
+            {
+                return Result.Failed(new Error("Invalid Operation", "Please enter valid id group."));
+            }
+
+            this.context.Groups.Remove(group);
+            await this.context.SaveChangesAsync();
+
+            return Result.Success;
+        }
+
         public async Task<Result> EditAsync(int id, Group model)
         {
             var group = await this.context

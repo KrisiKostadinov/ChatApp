@@ -91,5 +91,18 @@ namespace ChatServer.Features.Group.Controllers
 
             return BadRequest(result.Errors);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Dismiss(int id)
+        {
+            var result = await this.groupService.Dismiss(id);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Errors);
+        }
+
     }
 }
