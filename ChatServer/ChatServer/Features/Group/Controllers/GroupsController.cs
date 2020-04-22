@@ -75,5 +75,21 @@ namespace ChatServer.Features.Group.Controllers
 
             return group;
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<ActionResult> Edit(int id, GroupRequestModel model)
+        {
+            var group = this.mapper.Map<Group>(model);
+            var result = await this.groupService.EditAsync(id, group);
+
+            if (result.Succeeded)
+            {
+                var newGroup = await this.groupService.ById(id);
+                return Ok(newGroup);
+            }
+
+            return BadRequest(result.Errors);
+        }
     }
 }

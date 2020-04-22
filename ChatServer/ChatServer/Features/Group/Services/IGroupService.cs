@@ -14,5 +14,7 @@ namespace ChatServer.Features.Group.Services
         Task<IEnumerable<GroupResponseModel>> AllByUserId(string userId);
 
         Task<GroupResponseModel> ById(int id);
+
+        Task<Result> EditAsync(int id, Group group);
     }
 }

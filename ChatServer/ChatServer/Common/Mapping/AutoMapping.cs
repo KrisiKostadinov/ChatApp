@@ -13,6 +13,7 @@ namespace ChatServer.Data.Extentions
             this.CreateMap<AboutUser, AboutUserRequestModel>();
             this.CreateMap<AboutUserRequestModel, AboutUser>();
             this.CreateMap<GroupRequestModel, Group>();
+            this.CreateMap<GroupRequestModel, GroupResponseModel>();
         }
     }
 }
