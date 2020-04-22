@@ -12,5 +12,7 @@ namespace ChatServer.Features.Group.Services
         Task<Result> Add(Group group);
 
         Task<IEnumerable<GroupResponseModel>> AllByUserId(string userId);
+
+        Task<GroupResponseModel> ById(int id);
     }
 }

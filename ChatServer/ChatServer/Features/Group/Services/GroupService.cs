@@ -43,5 +43,15 @@ namespace ChatServer.Features.Group.Services
 
             return groups;
         }
+
+        public async Task<GroupResponseModel> ById(int id)
+        {
+            var group = await this.context
+                .Groups.Where(g => g.Id == id)
+                .To<GroupResponseModel>()
+                .FirstOrDefaultAsync();
+
+            return group;
+        }
     }
 }

@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 namespace ChatServer.Features.Group.Controllers
 {
     using Data.Models.Group;
-    using System.Collections;
+    using Microsoft.AspNetCore.Authorization;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
 
+    [Authorize]
     public class GroupsController : ApiController
     {
         private readonly IGroupService groupService;
@@ -60,6 +61,19 @@ namespace ChatServer.Features.Group.Controllers
             var groups = await this.groupService.AllByUserId(userId);
 
             return groups.ToList();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<GroupResponseModel>> ById(int id)
+        {
+            var group = await this.groupService.ById(id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            return group;
         }
     }
 }
