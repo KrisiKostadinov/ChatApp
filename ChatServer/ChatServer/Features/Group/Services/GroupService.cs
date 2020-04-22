@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 namespace ChatServer.Features.Group.Services
 {
     using ChatServer.Common;
+    using ChatServer.Common.Mapping;
     using ChatServer.Data.Models.Group;
+    using ChatServer.Features.Group.Models;
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class GroupService : IGroupService
     {
@@ -27,6 +32,16 @@ namespace ChatServer.Features.Group.Services
             await context.SaveChangesAsync();
 
             return Result.Success;
+        }
+
+        public async Task<IEnumerable<GroupResponseModel>> AllByUserId(string userId)
+        {
+            var groups = await this.context
+                .Groups.Where(g => g.OwnerId == userId)
+                .To<GroupResponseModel>()
+                .ToListAsync();
+
+            return groups;
         }
     }
 }

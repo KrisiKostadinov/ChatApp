@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using ChatServer.Data.Models.User;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,5 +16,7 @@ namespace ChatServer.Data.Models.Group
         public ICollection<Participant> Participants { get; set; }
 
         public string OwnerId { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 }

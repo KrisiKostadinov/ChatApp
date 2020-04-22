@@ -1,6 +1,5 @@
 ﻿using ChatServer.Common.Mapping;
 using ChatServer.Data;
-using ChatServer.Data.Models;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
 using Microsoft.EntityFrameworkCore;

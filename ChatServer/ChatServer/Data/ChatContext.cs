@@ -1,5 +1,4 @@
-﻿using ChatServer.Data.Models;
-using ChatServer.Data.Models.Group;
+﻿using ChatServer.Data.Models.Group;
 using ChatServer.Data.Models.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +22,11 @@ namespace ChatServer.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Group>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Groups)
+                .HasForeignKey(x => x.OwnerId);
+
             base.OnModelCreating(builder);
         }
     }

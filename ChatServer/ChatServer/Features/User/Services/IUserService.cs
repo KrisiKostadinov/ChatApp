@@ -1,5 +1,4 @@
-﻿using ChatServer.Data.Models;
-using ChatServer.Data.Models.User;
+﻿using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

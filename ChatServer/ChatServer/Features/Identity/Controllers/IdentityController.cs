@@ -1,5 +1,4 @@
 ﻿using ChatServer.Controllers;
-using ChatServer.Data.Models;
 using ChatServer.Data.Models.Identity;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Services;

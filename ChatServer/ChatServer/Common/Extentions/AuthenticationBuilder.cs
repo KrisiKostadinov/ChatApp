@@ -1,5 +1,5 @@
 ﻿using ChatServer.Data;
-using ChatServer.Data.Models;
+using ChatServer.Data.Models.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

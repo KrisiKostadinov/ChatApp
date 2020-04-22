@@ -4,9 +4,13 @@ using System.Threading.Tasks;
 namespace ChatServer.Features.Group.Services
 {
     using ChatServer.Data.Models.Group;
+    using ChatServer.Features.Group.Models;
+    using System.Collections.Generic;
 
     public interface IGroupService
     {
         Task<Result> Add(Group group);
+
+        Task<IEnumerable<GroupResponseModel>> AllByUserId(string userId);
     }
 }

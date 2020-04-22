@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 namespace ChatServer.Features.Group.Controllers
 {
     using Data.Models.Group;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
 
     public class GroupsController : ApiController
@@ -42,6 +45,21 @@ namespace ChatServer.Features.Group.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        [Route("all/{userId}")]
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<GroupResponseModel>>> AllByUserId(string userId)
+        {
+            if (userId == null)
+            {
+                userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+
+            var groups = await this.groupService.AllByUserId(userId);
+
+            return groups.ToList();
         }
     }
 }
