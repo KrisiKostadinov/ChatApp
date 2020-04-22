@@ -1,4 +1,5 @@
 ﻿using ChatServer.Data.Models;
+using ChatServer.Data.Models.Group;
 using ChatServer.Data.Models.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ namespace ChatServer.Data
         public DbSet<AboutUser> AboutUsers { get; set; }
 
         public DbSet<Friend> Friends { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

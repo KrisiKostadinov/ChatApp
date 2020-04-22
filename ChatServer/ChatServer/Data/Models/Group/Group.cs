@@ -1,0 +1,20 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace ChatServer.Data.Models.Group
+{
+    public class Group
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string Subject { get; set; }
+
+        public string Description { get; set; }
+
+        public ICollection<Participant> Participants { get; set; }
+
+        public string OwnerId { get; set; }
+    }
+}

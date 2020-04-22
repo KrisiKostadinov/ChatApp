@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using ChatServer.Common.Mapping;
-using ChatServer.Data.Extentions;
+﻿using ChatServer.Common.Mapping;
+using ChatServer.Features.Group.Services;
 using ChatServer.Features.User.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -13,7 +12,8 @@ namespace ChatServer.Common.Extentions
             => services
             .AddScoped<IHaveCustomMappings, HaveCustomMappings>()
             .AddScoped<IUserService, UsersService>()
-            .AddScoped<IFriendsService, FriendsService>();
+            .AddScoped<IFriendsService, FriendsService>()
+            .AddScoped<IGroupService, GroupService>();
 
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
