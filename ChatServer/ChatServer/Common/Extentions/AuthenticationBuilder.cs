@@ -81,7 +81,10 @@ namespace ChatServer.Common.Extentions
                     });
             });
 
-        public static void AddApiControllers(this IServiceCollection services)
-            => services.AddControllers();
+        public static IServiceCollection AddApiControllers(this IServiceCollection services)
+        {
+            services.AddControllers();
+            return services;
+        }
     }
 }

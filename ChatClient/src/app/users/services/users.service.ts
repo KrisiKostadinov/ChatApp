@@ -56,7 +56,10 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<User> {
-    return this.http.get<User>(this.getAllUsersPath);
+    const header = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    });
+    return this.http.get<User>(this.getAllUsersPath,{ headers: header });
   }
 
   getUserById(id: string): Observable<User> {

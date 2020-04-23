@@ -9,13 +9,15 @@ import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './common/user-details/user-details.component';
 import { AuthGourdService } from './services/auth-guard.service';
 import { UsersService } from './services/users.service';
+import { ChatComponent } from './common/chat/chat.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
     ListAllUsersComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,

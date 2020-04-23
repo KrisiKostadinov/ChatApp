@@ -5,6 +5,7 @@ import { RegisterComponent } from './users/register/register.component';
 import { ListAllUsersComponent } from './users/common/list-all-users/list-all-users.component';
 import { UserDetailsComponent } from './users/common/user-details/user-details.component';
 import { AuthGourdService } from './users/services/auth-guard.service';
+import { ChatComponent } from './users/common/chat/chat.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent }
   ] },
   { path: 'users', canActivate: [AuthGourdService], children: [
-    { path: 'details/:id', component: UserDetailsComponent }
+    { path: 'details/:id', component: UserDetailsComponent },
+    { path: 'chat', component: ChatComponent }
   ] }
 ];
 

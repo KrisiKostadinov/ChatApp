@@ -8,9 +8,12 @@ import { UsersService } from '../users/services/users.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public usersService: UsersService) { }
+  constructor(public usersService: UsersService) {
+    
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    
   }
 
   logout() {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using ChatServer.Data.Extentions;
 using AutoMapper;
 using ChatServer.Common.Extentions;
+using ChatServer.Hubs;
 
 namespace ChatServer
 {
@@ -29,7 +30,16 @@ namespace ChatServer
                 .AddServices()
                 .AddAutoMapper()
                 .AddSwagger()
-                .AddApiControllers();
+                .AddApiControllers()
+                .AddCors(options => options.AddPolicy("CorsPolicy",
+                     builder =>
+                     {
+                         builder.AllowAnyMethod().AllowAnyHeader()
+                                .WithOrigins("*")
+                                .WithMethods("*")
+                                .WithHeaders("*");
+                     }))
+                .AddSignalR();
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapping());
@@ -52,17 +62,20 @@ namespace ChatServer
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials());
             app.UseRouting()
+                .UseMiddleware<Middlewares>()
                 .UseSwaggerUI()
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseCors(options => options
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod())
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
+                    endpoints.MapHub<IndexChatHub>("/users/chat");
                 })
                 .ApplyMigrations();
         }

@@ -1,0 +1,10 @@
+<form [formGroup]="testForm" (ngSubmit)="sendToAll()">
+    <input type="text" formControlName="text">
+    <select formControlName="to">
+        <option value="all">all</option>
+        <option *ngFor="let user of users" value="{{user}}">{{ user }}</option>
+    </select>
+    <input type="submit" value="Send">
+</form>
+
+{{ messages | json }}
