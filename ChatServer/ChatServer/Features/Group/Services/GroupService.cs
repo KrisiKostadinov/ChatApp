@@ -49,8 +49,20 @@ namespace ChatServer.Features.Group.Services
                 return Result.Failed(new Error("Invalid Operation", "Please enter valid id group."));
             }
 
+            var isInGroup = await this.context
+                .Groups
+                .Where(g => g.Id == groupId)
+                .Select(g => g.Subject)
+                .FirstOrDefaultAsync();
+
+            if (isInGroup == null)
+            {
+                return Result.Failed(new Error("Invalid Operation", "This user is exist in group."));
+            }
+
             this.context.Participants.Add(participant);
             await this.context.SaveChangesAsync();
+
             return Result.Success;
         }
 

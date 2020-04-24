@@ -104,5 +104,19 @@ namespace ChatServer.Features.Group.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpPut]
+        [Route("addToGroup/{groupId}")]
+        public async Task<ActionResult> AddToGroup(int groupId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await this.groupService.AddToGroup(groupId, userId);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Errors);
+        }
     }
 }
