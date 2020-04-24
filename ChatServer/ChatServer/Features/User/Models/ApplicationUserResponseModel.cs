@@ -1,15 +1,18 @@
-﻿using ChatServer.Common.Mapping;
+﻿using AutoMapper;
+using ChatServer.Common.Mapping;
 using ChatServer.Data.Models.User;
 
 namespace ChatServer.Features.User.Models
 {
-    public class ApplicationUserResponseModel : IMapFrom<AboutUser>
+    public class ApplicationUserResponseModel : IMapFrom<AboutUser>, IHaveCustomMappings
     {
+        public int Id { get; set; }
+
         public string UserId { get; set; }
 
-        public string UserUserName { get; set; }
+        public string UserName { get; set; }
 
-        public string UserEmail { get; set; }
+        public string Email { get; set; }
 
         public string City { get; set; }
 
@@ -28,5 +31,12 @@ namespace ChatServer.Features.User.Models
         public string HighSchool { get; set; }
 
         public int University { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            var map = configuration.CreateMap<AboutUser, ApplicationUserResponseModel>();
+            map.ForMember(x => x.UserName, x => x.MapFrom(x => x.User.UserName));
+            map.ForMember(x => x.Email, x => x.MapFrom(x => x.User.Email));
+        }
     }
 }

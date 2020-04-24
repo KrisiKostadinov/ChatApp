@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace ChatServer.Features.User.Controllers
 {
-    [Authorize]
     public class UsersController : ApiController
     {
         private readonly IUserService userService;
@@ -35,7 +34,7 @@ namespace ChatServer.Features.User.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<AboutUserRequestModel> ById(string id)
+        public async Task<ApplicationUserResponseModel> ById(string id)
         {
             var user = await userService.ById(id);
             return user;

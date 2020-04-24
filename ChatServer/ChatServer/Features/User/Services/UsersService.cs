@@ -2,6 +2,7 @@
 using ChatServer.Data;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace ChatServer.Features.User.Services
 {
+    [Authorize]
     public class UsersService : IUserService
     {
         private readonly ChatContext context;
@@ -23,12 +25,12 @@ namespace ChatServer.Features.User.Services
             this.context = context;
         }
 
-        public async Task<AboutUserRequestModel> ById(string id)
+        public async Task<ApplicationUserResponseModel> ById(string id)
         {
             var user = await context
                 .AboutUsers
                 .Where(u => u.UserId == id)
-                .To<AboutUserRequestModel>()
+                .To<ApplicationUserResponseModel>()
                 .FirstOrDefaultAsync();
 
             return user;

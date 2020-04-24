@@ -11,7 +11,7 @@ namespace ChatServer.Features.User.Services
 
         string GenerateJWTToken(string secret, ApplicationUser user);
 
-        Task<AboutUserRequestModel> ById(string id);
+        Task<ApplicationUserResponseModel> ById(string id);
 
         Task<string> UpdateAsync(AboutUser model);
 

@@ -3,7 +3,6 @@
 namespace ChatServer.Features.Group.Models
 {
     using AutoMapper;
-    using ChatServer.Data.Models;
     using Data.Models.Group;
     using System.Collections.Generic;
 

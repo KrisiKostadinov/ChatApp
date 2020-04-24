@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-4">
           <ul class="list-group">
-            <a *ngFor="let user of users" class="list-group-item list-group-item-action" routerLink="/users/details/{{user.id}}">{{ user.userName }}</a>
+            <a *ngFor="let user of users" class="list-group-item list-group-item-action" routerLink="/users/details/{{user.userId}}">{{ user.userName }}</a>
           </ul>
         </div>
     </div>
