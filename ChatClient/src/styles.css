@@ -11,3 +11,37 @@
     color: #ff0000;
     text-shadow: 0 0 1px;
 }
+
+.groups {
+    border: 1px solid #2a68da;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 0 2px #cccccc;
+}
+
+.groups .header {
+    background-color: #2a68da;
+    color: #ffffff;
+    padding: 0.7em 0;
+    margin: 0;
+    text-align: center;
+}
+
+.groups .groups-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.groups .group-item {
+    width: 100%;
+    padding: 0.7em 2em;
+    transition: background-color 0.2s;
+}
+
+.groups .group-item:hover {
+    background-color: #2a68da;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+}

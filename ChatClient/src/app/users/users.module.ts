@@ -10,6 +10,9 @@ import { UserDetailsComponent } from './common/user-details/user-details.compone
 import { AuthGourdService } from './services/auth-guard.service';
 import { UsersService } from './services/users.service';
 import { ChatComponent } from './common/chat/chat.component';
+import { IndexComponent } from './common/index/index.component';
+import { ListAllGroupsComponent } from './common/groups/list-all-groups/list-all-groups.component';
+import { GroupsService } from './common/groups/groups.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { ChatComponent } from './common/chat/chat.component';
     RegisterComponent,
     ListAllUsersComponent,
     UserDetailsComponent,
-    ChatComponent
+    ChatComponent,
+    IndexComponent,
+    ListAllGroupsComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +33,7 @@ import { ChatComponent } from './common/chat/chat.component';
   providers: [
     UsersService,
     AuthGourdService,
+    GroupsService,
   ]
 })
 export class UsersModule { }

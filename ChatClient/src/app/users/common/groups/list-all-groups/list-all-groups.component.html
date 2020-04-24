@@ -1,0 +1,6 @@
+<div class="groups mt-4">
+    <h4 class="header">Groups</h4>
+    <ul class="groups-list">
+      <a *ngFor="let group of groups" class="group-item" routerLink="/groups/details/{{group.id}}">{{ group.subject }}</a>
+    </ul>
+</div>
