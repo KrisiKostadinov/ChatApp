@@ -118,5 +118,20 @@ namespace ChatServer.Features.Group.Controllers
 
             return BadRequest(result.Errors);
         }
+
+        [HttpDelete]
+        [Route("removeFromGroup/{groupId}")]
+        public async Task<ActionResult> RemoveFromGroup(int groupId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await this.groupService.RemoveFromGroup(groupId, userId);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Errors);
+        }
     }
 }

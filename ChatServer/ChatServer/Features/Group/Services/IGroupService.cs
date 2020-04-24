@@ -22,5 +22,7 @@ namespace ChatServer.Features.Group.Services
         Task<Result> AddToGroup(int groupId, string userId);
 
         Task<bool> IsInGroup(string userId, string group);
+
+        Task<Result> RemoveFromGroup(int groupId, string userId);
     }
 }

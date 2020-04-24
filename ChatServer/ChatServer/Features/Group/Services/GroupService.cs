@@ -140,5 +140,21 @@ namespace ChatServer.Features.Group.Services
 
             return true;
         }
+
+        public async Task<Result> RemoveFromGroup(int groupId, string userId)
+        {
+            var participant = await this.context
+                .Participants
+                .Where(g => g.GroupId == groupId && g.UserId == userId)
+                .FirstOrDefaultAsync();
+            if (participant == null)
+            {
+                return Result.Failed(new Error("Invalid Operation", "This user is not exist in group."));
+            }
+
+            this.context.Participants.Remove(participant);
+            await this.context.SaveChangesAsync();
+            return Result.Success;
+        }
     }
 }
