@@ -18,5 +18,9 @@ namespace ChatServer.Features.Group.Services
         Task<Result> EditAsync(int id, Group group);
 
         Task<Result> Dismiss(int id);
+
+        Task<Result> AddToGroup(int groupId, string userId);
+
+        Task<bool> IsInGroup(string userId, string group);
     }
 }

@@ -34,6 +34,26 @@ namespace ChatServer.Features.Group.Services
             return Result.Success;
         }
 
+        public async Task<Result> AddToGroup(int groupId, string userId)
+        {
+            var participant = new Participant
+            {
+                GroupId = groupId,
+                UserId = userId,
+            };
+
+            var isValid = await this.ById(groupId);
+
+            if (isValid == null)
+            {
+                return Result.Failed(new Error("Invalid Operation", "Please enter valid id group."));
+            }
+
+            this.context.Participants.Add(participant);
+            await this.context.SaveChangesAsync();
+            return Result.Success;
+        }
+
         public async Task<IEnumerable<GroupResponseModel>> AllByUserId(string userId)
         {
             var groups = await this.context
@@ -92,6 +112,21 @@ namespace ChatServer.Features.Group.Services
             await this.context.SaveChangesAsync();
 
             return Result.Success;
+        }
+
+        public async Task<bool> IsInGroup(string userId, string group)
+        {
+            var groupDb = await this.context
+                .Groups
+                .Where(g => g.Subject == group && g.User.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (groupDb == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

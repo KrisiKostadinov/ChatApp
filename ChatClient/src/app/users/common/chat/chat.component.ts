@@ -44,6 +44,11 @@ export class ChatComponent implements OnInit {
         console.log(data);
         this.users.push(data);
       });
+      
+      this.connection.on('addedToGroup', (data) => {
+        console.log('addedToGroup ' + data);
+        this.users.push(data);
+      });
   }
   
   public disconnect() {
@@ -71,4 +76,9 @@ export class ChatComponent implements OnInit {
       });
     }
   }
+
+  addGroup() {
+    this.connection.invoke('AddToGroup', 'group');
+  }
+
 }
