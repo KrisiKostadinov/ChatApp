@@ -149,5 +149,12 @@ namespace ChatServer.Features.Group.Controllers
 
             return users;
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<GroupResponseModel>> ListAll()
+        {
+            var groups = await this.groupService.ListAll();
+            return groups;
+        }
     }
 }

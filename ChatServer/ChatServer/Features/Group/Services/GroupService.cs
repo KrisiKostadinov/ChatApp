@@ -152,6 +152,16 @@ namespace ChatServer.Features.Group.Services
             return true;
         }
 
+        public async Task<IEnumerable<GroupResponseModel>> ListAll()
+        {
+            var groups = await this.context
+                .Groups
+                .To<GroupResponseModel>()
+                .ToListAsync();
+
+            return groups;
+        }
+
         public async Task<Result> RemoveFromGroup(int groupId, string userId)
         {
             var participant = await this.context

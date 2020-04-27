@@ -27,5 +27,7 @@ namespace ChatServer.Features.Group.Services
         Task<Result> RemoveFromGroup(int groupId, string userId);
 
         Task<IEnumerable<AboutUserResponseModel>> AllInGroup(int groupId);
+
+        Task<IEnumerable<GroupResponseModel>> ListAll();
     }
 }
