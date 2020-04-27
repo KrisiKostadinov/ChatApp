@@ -5,6 +5,7 @@ namespace ChatServer.Features.Group.Services
 {
     using ChatServer.Data.Models.Group;
     using ChatServer.Features.Group.Models;
+    using ChatServer.Features.User.Models;
     using System.Collections.Generic;
 
     public interface IGroupService
@@ -24,5 +25,7 @@ namespace ChatServer.Features.Group.Services
         Task<bool> IsInGroup(string userId, string group);
 
         Task<Result> RemoveFromGroup(int groupId, string userId);
+
+        Task<IEnumerable<AboutUserResponseModel>> AllInGroup(int groupId);
     }
 }

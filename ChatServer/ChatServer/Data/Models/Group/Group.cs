@@ -13,7 +13,7 @@ namespace ChatServer.Data.Models.Group
 
         public string Description { get; set; }
 
-        public ICollection<Participant> Participants { get; set; }
+        public ICollection<UserGroup> UsersGroups { get; set; }
 
         public string OwnerId { get; set; }
 

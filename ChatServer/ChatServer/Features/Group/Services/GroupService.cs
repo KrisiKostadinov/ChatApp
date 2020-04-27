@@ -8,6 +8,7 @@ namespace ChatServer.Features.Group.Services
     using ChatServer.Common.Mapping;
     using ChatServer.Data.Models.Group;
     using ChatServer.Features.Group.Models;
+    using ChatServer.Features.User.Models;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,7 +29,7 @@ namespace ChatServer.Features.Group.Services
                 return Result.Failed(new Error("Invalid Operation", "Please enter valid title group."));
             }
 
-            this.context.Groups.Add(group);
+            await this.context.Groups.AddAsync(group);
             await context.SaveChangesAsync();
 
             return Result.Success;
@@ -36,7 +37,7 @@ namespace ChatServer.Features.Group.Services
 
         public async Task<Result> AddToGroup(int groupId, string userId)
         {
-            var participant = new Participant
+            var participant = new UserGroup
             {
                 GroupId = groupId,
                 UserId = userId,
@@ -50,17 +51,16 @@ namespace ChatServer.Features.Group.Services
             }
 
             var isInGroup = await this.context
-                .Groups
-                .Where(g => g.Id == groupId)
-                .Select(g => g.Subject)
+                .UsersGroups
+                .Where(g => g.GroupId == groupId && g.UserId == userId)
                 .FirstOrDefaultAsync();
 
-            if (isInGroup == null)
+            if (isInGroup != null)
             {
                 return Result.Failed(new Error("Invalid Operation", "This user is exist in group."));
             }
 
-            this.context.Participants.Add(participant);
+            this.context.UsersGroups.Add(participant);
             await this.context.SaveChangesAsync();
 
             return Result.Success;
@@ -74,6 +74,17 @@ namespace ChatServer.Features.Group.Services
                 .ToListAsync();
 
             return groups;
+        }
+
+        public async Task<IEnumerable<AboutUserResponseModel>> AllInGroup(int groupId)
+        {
+            var usersInGroup = await this.context
+                .UsersGroups
+                .Where(x => x.GroupId == groupId)
+                .Select(x => x.User)
+                .To<AboutUserResponseModel>()
+                .ToListAsync();
+            return usersInGroup;
         }
 
         public async Task<GroupResponseModel> ById(int id)
@@ -144,7 +155,7 @@ namespace ChatServer.Features.Group.Services
         public async Task<Result> RemoveFromGroup(int groupId, string userId)
         {
             var participant = await this.context
-                .Participants
+                .UsersGroups
                 .Where(g => g.GroupId == groupId && g.UserId == userId)
                 .FirstOrDefaultAsync();
             if (participant == null)
@@ -152,7 +163,7 @@ namespace ChatServer.Features.Group.Services
                 return Result.Failed(new Error("Invalid Operation", "This user is not exist in group."));
             }
 
-            this.context.Participants.Remove(participant);
+            this.context.UsersGroups.Remove(participant);
             await this.context.SaveChangesAsync();
             return Result.Success;
         }

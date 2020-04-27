@@ -14,7 +14,7 @@ namespace ChatServer.Features.Group.Models
 
         public string Description { get; set; }
 
-        public ICollection<Participant> Participants { get; set; }
+        public ICollection<UserGroup> UserGropus { get; set; }
 
         public string OwnerId { get; set; }
 
@@ -27,6 +27,7 @@ namespace ChatServer.Features.Group.Models
             var map = configuration.CreateMap<Group, GroupResponseModel>();
             map.ForMember(x => x.Email, x => x.MapFrom(x => x.User.Email));
             map.ForMember(x => x.UserName, x => x.MapFrom(x => x.User.UserName));
+            map.ForMember(x => x.UserGropus, x => x.MapFrom(x => x.UsersGroups));
         }
     }
 }

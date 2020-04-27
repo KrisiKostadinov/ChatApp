@@ -22,14 +22,27 @@ namespace ChatServer.Data
 
         public DbSet<Message> Messages { get; set; }
 
-        public DbSet<Participant> Participants { get; set; }
+        public DbSet<UserGroup> UsersGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<UserGroup>()
+                .HasKey(x => new { x.UserId, x.GroupId });
+
             builder.Entity<Group>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Groups)
                 .HasForeignKey(x => x.OwnerId);
+
+            builder.Entity<UserGroup>()
+                .HasOne(x => x.Group)
+                .WithMany(x => x.UsersGroups)
+                .HasForeignKey(x => x.GroupId);
+
+            builder.Entity<UserGroup>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UsersGroups)
+                .HasForeignKey(x => x.UserId);
 
             base.OnModelCreating(builder);
         }

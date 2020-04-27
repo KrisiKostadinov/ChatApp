@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace ChatServer.Features.Group.Controllers
 {
+    using ChatServer.Data.Models.User;
+    using ChatServer.Features.User.Models;
     using Data.Models.Group;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
@@ -18,22 +21,26 @@ namespace ChatServer.Features.Group.Controllers
     {
         private readonly IGroupService groupService;
         private readonly IMapper mapper;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public GroupsController(
             IGroupService groupService,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<ApplicationUser> userManager)
         {
             this.groupService = groupService;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         [HttpPost]
         public async Task<ActionResult> Add(GroupRequestModel model)
         {
             var group = this.mapper.Map<Group>(model);
-            group.OwnerId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await this.userManager.FindByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            group.User = user;
 
-            if (group.OwnerId == null)
+            if (user == null)
             {
                 return Unauthorized();
             }
@@ -61,8 +68,8 @@ namespace ChatServer.Features.Group.Controllers
             var groups = await this.groupService.AllByUserId(userId);
 
             return groups.ToList();
-        }
 
+        }
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<GroupResponseModel>> ById(int id)
@@ -132,6 +139,15 @@ namespace ChatServer.Features.Group.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        [Route("{groupId}/all")]
+        public async Task<IEnumerable<AboutUserResponseModel>> UsersInGroup(int groupId)
+        {
+            var users = await this.groupService.AllInGroup(groupId);
+
+            return users;
         }
     }
 }

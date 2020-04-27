@@ -10,8 +10,11 @@ namespace ChatServer.Data.Models.User
         public ApplicationUser()
         {
             Groups = new HashSet<Group>();
+            UsersGroups = new HashSet<UserGroup>();
         }
 
         public IEnumerable<Group> Groups { get; set; }
+
+        public IEnumerable<UserGroup> UsersGroups { get; set; }
     }
 }

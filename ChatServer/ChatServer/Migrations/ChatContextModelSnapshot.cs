@@ -4,16 +4,14 @@ using ChatServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChatServer.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20200424130627_ModifiedParticipants")]
-    partial class ModifiedParticipants
+    partial class ChatContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,26 +73,19 @@ namespace ChatServer.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("ChatServer.Data.Models.Group.Participant", b =>
+            modelBuilder.Entity("ChatServer.Data.Models.Group.UserGroup", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "GroupId");
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Participants");
+                    b.ToTable("UsersGroups");
                 });
 
             modelBuilder.Entity("ChatServer.Data.Models.User.AboutUser", b =>
@@ -395,17 +386,19 @@ namespace ChatServer.Migrations
                         .HasForeignKey("SenderId");
                 });
 
-            modelBuilder.Entity("ChatServer.Data.Models.Group.Participant", b =>
+            modelBuilder.Entity("ChatServer.Data.Models.Group.UserGroup", b =>
                 {
                     b.HasOne("ChatServer.Data.Models.Group.Group", "Group")
-                        .WithMany("Participants")
+                        .WithMany("UsersGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChatServer.Data.Models.User.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("UsersGroups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ChatServer.Data.Models.User.AboutUser", b =>
