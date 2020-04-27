@@ -17,15 +17,11 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
   login(data):Observable<User> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post<User>(this.loginPath, data, { headers: headers });
+    return this.http.post<User>(this.loginPath, data);
   }
 
   register(data):Observable<User> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post<User>(this.registerPath, data, { headers: headers });
+    return this.http.post<User>(this.registerPath, data);
   }
 
   saveToken(token: string) {
@@ -56,15 +52,10 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<User> {
-    const header = new HttpHeaders({
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-    return this.http.get<User>(this.getAllUsersPath,{ headers: header });
+    return this.http.get<User>(this.getAllUsersPath);
   }
 
   getUserById(id: string): Observable<User> {
-    let headers = new HttpHeaders();
-    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.get<User>(this.byId + id, { headers: headers });
+    return this.http.get<User>(this.byId + id);
   }
 }

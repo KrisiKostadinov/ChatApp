@@ -9,6 +9,7 @@ namespace ChatServer.Common.Mapping
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<AboutUser, AboutUserResponseModel>();
+            configuration.CreateMap<ApplicationUser, AboutUserResponseModel>();
         }
     }
 }

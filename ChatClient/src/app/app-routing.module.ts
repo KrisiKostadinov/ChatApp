@@ -6,6 +6,7 @@ import { UserDetailsComponent } from './users/common/user-details/user-details.c
 import { AuthGourdService } from './users/services/auth-guard.service';
 import { ChatComponent } from './users/common/chat/chat.component';
 import { IndexComponent } from './users/common/index/index.component';
+import { GroupDetailsComponent } from './users/common/groups/group-details/group-details.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,12 @@ const routes: Routes = [
   { path: 'users', canActivate: [AuthGourdService], children: [
     { path: 'details/:id', component: UserDetailsComponent },
     { path: 'chat', component: ChatComponent }
-  ] }
+  ] },
+  {
+    path: 'groups', children: [
+      { path: 'details/:id', component: GroupDetailsComponent }
+    ]
+  }
 ];
 
 @NgModule({

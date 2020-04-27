@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Group } from './models/group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +10,15 @@ import { environment } from 'src/environments/environment';
 export class GroupsService {
 
   allPath: string = 'groups/all';
+  byIdPath: string = 'groups/';
 
   constructor(private http: HttpClient) { }
 
-  all(): Observable<any> {
-    const header = new HttpHeaders({
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    });
-    
-    console.log(environment.apiUrl + this.allPath);
-
-    return this.http.get(environment.apiUrl + this.allPath, { headers: header });
+  all(): Observable<Group> {
+    return this.http.get<Group>(environment.apiUrl + this.allPath);
   }
 
+  byId(id: number): Observable<Group> {
+    return this.http.get<Group>(environment.apiUrl + this.byIdPath + id);
+  }
 }

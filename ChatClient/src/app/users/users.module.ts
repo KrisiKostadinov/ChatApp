@@ -13,6 +13,7 @@ import { ChatComponent } from './common/chat/chat.component';
 import { IndexComponent } from './common/index/index.component';
 import { ListAllGroupsComponent } from './common/groups/list-all-groups/list-all-groups.component';
 import { GroupsService } from './common/groups/groups.service';
+import { GroupDetailsComponent } from './common/groups/group-details/group-details.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { GroupsService } from './common/groups/groups.service';
     UserDetailsComponent,
     ChatComponent,
     IndexComponent,
-    ListAllGroupsComponent
+    ListAllGroupsComponent,
+    GroupDetailsComponent
   ],
   imports: [
     CommonModule,

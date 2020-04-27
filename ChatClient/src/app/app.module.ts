@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { UsersModule } from './users/users.module';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './common/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,13 @@ import { NavbarComponent } from './navbar/navbar.component';
     BrowserModule,
     UsersModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
