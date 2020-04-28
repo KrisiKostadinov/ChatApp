@@ -48,6 +48,9 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   exit() {
-
+    this.groupService.exit(this.id).subscribe(res => {
+      this.getData();
+      this.toastrService.error('Exit was successfully!', 'Exit!', { closeButton: true, progressBar: true, extendedTimeOut: 2000, timeOut: 2000 });
+    });
   }
 }

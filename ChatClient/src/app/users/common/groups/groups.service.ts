@@ -13,6 +13,7 @@ export class GroupsService {
   byIdPath: string = 'groups/';
   addPath: string = 'groups';
   joinPath: string = 'groups/addToGroup/';
+  exitPath: string = 'groups/removeFromGroup/';
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,10 @@ export class GroupsService {
     return this.http.put<number>(environment.apiUrl + this.joinPath + id, id);
   }
 
+  exit(id: number): Observable<number> {
+    return this.http.delete<number>(environment.apiUrl + this.exitPath + id);
+  }
+  
   all(): Observable<Group> {
     return this.http.get<Group>(environment.apiUrl + this.allPath);
   }
