@@ -7,10 +7,11 @@ import { AuthGourdService } from './users/services/auth-guard.service';
 import { ChatComponent } from './users/common/chat/chat.component';
 import { IndexComponent } from './users/common/index/index.component';
 import { GroupDetailsComponent } from './users/common/groups/group-details/group-details.component';
+import { AddGroupComponent } from './users/common/groups/add-group/add-group.component';
 
 
 const routes: Routes = [
-  { path: '', component: IndexComponent },
+  { path: '', component: IndexComponent, canActivate: [AuthGourdService] },
   { path: 'auth', children: [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent }
@@ -21,7 +22,8 @@ const routes: Routes = [
   ] },
   {
     path: 'groups', children: [
-      { path: 'details/:id', component: GroupDetailsComponent }
+      { path: 'details/:id', component: GroupDetailsComponent },
+      { path: 'add', component: AddGroupComponent }
     ]
   }
 ];

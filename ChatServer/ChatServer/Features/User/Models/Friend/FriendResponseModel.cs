@@ -19,6 +19,7 @@ namespace ChatServer.Features.User.Models.Friend
             var map = configuration.CreateMap<AboutUser, FriendResponseModel>();
             map.ForMember(f => f.Email, f => f.MapFrom(u => u.User.Email));
             map.ForMember(f => f.UserName, f => f.MapFrom(u => u.User.UserName));
+            map.ForMember(f => f.Job, f => f.MapFrom(u => u.Job));
         }
     }
 }

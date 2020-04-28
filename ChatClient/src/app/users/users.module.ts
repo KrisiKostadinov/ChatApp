@@ -14,9 +14,12 @@ import { IndexComponent } from './common/index/index.component';
 import { ListAllGroupsComponent } from './common/groups/list-all-groups/list-all-groups.component';
 import { GroupsService } from './common/groups/groups.service';
 import { GroupDetailsComponent } from './common/groups/group-details/group-details.component';
+import { AddGroupComponent } from './common/groups/add-group/add-group.component';
+import { CapitalizePipe } from '../filters/capitalize.pipe';
 
 @NgModule({
   declarations: [
+    CapitalizePipe,
     LoginComponent,
     RegisterComponent,
     ListAllUsersComponent,
@@ -24,7 +27,8 @@ import { GroupDetailsComponent } from './common/groups/group-details/group-detai
     ChatComponent,
     IndexComponent,
     ListAllGroupsComponent,
-    GroupDetailsComponent
+    GroupDetailsComponent,
+    AddGroupComponent
   ],
   imports: [
     CommonModule,

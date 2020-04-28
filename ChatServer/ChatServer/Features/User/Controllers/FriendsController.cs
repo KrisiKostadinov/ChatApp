@@ -23,11 +23,11 @@ namespace ChatServer.Features.User.Controllers
         }
 
         [HttpPost]
-        [Route("add")]
-        public async Task<ActionResult> AddFriendAcync(FriendRequestModel model)
+        [Route("{userId}")]
+        public async Task<ActionResult> AddFriendAcync(string userId)
         {
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (model.UserId == null)
+            if (userId == null)
             {
                 return BadRequest();
             }
@@ -35,14 +35,14 @@ namespace ChatServer.Features.User.Controllers
             var friend = new Friend
             {
                 CurrentUserId = currentUserId,
-                OtherUserId = model.UserId,
+                OtherUserId = userId,
             };
 
             var result = await this.friendsService.AddAsync(friend);
 
             if (result.Succeeded)
             {
-                return Ok(model.UserId);
+                return Ok(userId);
             }
 
             return BadRequest(result.Errors);

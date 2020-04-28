@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ChatServer.Features.User.Controllers
 {
+    [Authorize]
     public class UsersController : ApiController
     {
         private readonly IUserService userService;
@@ -40,17 +41,11 @@ namespace ChatServer.Features.User.Controllers
             return user;
         }
 
-        [HttpPost]
-        [Route("edit/{userId}")]
-        public async Task<ActionResult<string>> UpdateAsync(string userId, AboutUserRequestModel model)
+        [HttpPut]
+        public async Task<ActionResult<string>> UpdateAsync(AboutUserRequestModel model)
         {
-            var aboutUserDb = await userService.ById(userId);
+            var aboutUserDb = await userService.ById(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (currentUserId != userId)
-            {
-                return Unauthorized();
-            }
 
             if (aboutUserDb == null)
             {
@@ -59,10 +54,10 @@ namespace ChatServer.Features.User.Controllers
 
             var aboutUser = mapper.Map<AboutUser>(model);
             aboutUser.Id = aboutUserDb.Id;
-            aboutUser.UserId = userId;
+            aboutUser.UserId = currentUserId;
 
             await userService.UpdateAsync(aboutUser);
-            return userId;
+            return currentUserId;
         }
     }
 }

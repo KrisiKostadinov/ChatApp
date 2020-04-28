@@ -11,8 +11,13 @@ export class GroupsService {
 
   allPath: string = 'groups/all';
   byIdPath: string = 'groups/';
+  addPath: string = 'groups';
 
   constructor(private http: HttpClient) { }
+
+  add(group: Group): Observable<Group> {
+    return this.http.post<Group>(environment.apiUrl + this.addPath, group);
+  }
 
   all(): Observable<Group> {
     return this.http.get<Group>(environment.apiUrl + this.allPath);

@@ -1,7 +1,11 @@
-{{ usersService.getToken | json }}
 <nav>
     <div class="container">
-        <a routerLink="/">Chater</a>
+        <ul>
+            <a routerLink="/">Chater</a>
+            <li *ngIf="usersService.isAuthenticated">
+                <a [routerLink]="['/groups/add']">Create group</a>
+            </li>
+        </ul>
         <div>
             <ul *ngIf="!usersService.isAuthenticated else authenticated">
                 <li>

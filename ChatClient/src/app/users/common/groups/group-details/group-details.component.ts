@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupsService } from '../groups.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-details',
@@ -13,7 +13,8 @@ export class GroupDetailsComponent implements OnInit {
 
   constructor(
     public groupService: GroupsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
@@ -21,6 +22,14 @@ export class GroupDetailsComponent implements OnInit {
       this.group = data;
       console.log(data);
     });
+  }
+
+  listAll() {
+    this.router.navigate(['']);
+  }
+
+  back() {
+    window.history.back();
   }
 
 }
