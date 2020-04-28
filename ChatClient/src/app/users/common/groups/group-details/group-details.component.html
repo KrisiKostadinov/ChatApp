@@ -1,15 +1,19 @@
-<div class="container">
-    <div *ngIf="group" class="groups mt-4">
+<div class="container" *ngIf="group">
+    <div class="groups mt-4">
         <h2 class="header">{{ group.subject }}</h2>
         <ul class="groups-list">
             <li class="group-item">Owner: {{ group.userName }}</li>
-            <li class="group-item d-flex justify-content-between">Participants: {{group.participants?.count}}
+            <li class="group-item d-flex justify-content-between">Users: {{ group.users?.length }}
                 <button class="btn btn-outline-primary" value="Show all">Show all</button>
             </li>
             <li class="group-item">{{ group.description }}</li>
             <li class="group-item">Email: {{ group.email }}</li>
         </ul>
     </div>
-    <button class="mt-2 btn btn-outline-primary" (click)="listAll()">Show all</button>
-    <button class="mt-2 ml-2 btn btn-outline-danger" (click)="back()">Back</button>
+    <div class="btn-group">
+        <button class="mt-2 btn btn-outline-primary" (click)="listAll()">Show all</button>
+        <button class="mt-2 ml-2 btn btn-outline-danger" (click)="back()">Back</button>
+        <button *ngIf="!group.isJoined" class="mt-2 ml-2 btn btn-outline-success" (click)="join()">Join to this group</button>
+        <button *ngIf="group.isJoined" class="mt-2 ml-2 btn btn-outline-danger" (click)="exit()">Exit to this group</button>
+    </div>
 </div>

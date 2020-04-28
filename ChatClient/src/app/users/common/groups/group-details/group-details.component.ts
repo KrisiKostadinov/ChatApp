@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupsService } from '../groups.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Group } from '../models/group.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-group-details',
@@ -9,18 +11,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class GroupDetailsComponent implements OnInit {
 
-  group;
+  group: Group;
+
+  id: number;
 
   constructor(
     public groupService: GroupsService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    this.groupService.byId(id).subscribe(data => {
+    this.getData();
+  }
+
+  async getData() {
+    this.id = this.route.snapshot.params['id'];
+    this.groupService.byId(this.id).subscribe(data => {
       this.group = data;
-      console.log(data);
     });
   }
 
@@ -28,8 +36,18 @@ export class GroupDetailsComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  join() {
+    this.groupService.join(this.id).subscribe(res => {
+      this.getData();
+      this.toastrService.success('accession was successfully!', 'Joined!', { closeButton: true, progressBar: true, extendedTimeOut: 2000, timeOut: 2000 });
+    }, errors => console.log(errors));
+  }
+
   back() {
     window.history.back();
   }
 
+  exit() {
+
+  }
 }

@@ -12,11 +12,16 @@ export class GroupsService {
   allPath: string = 'groups/all';
   byIdPath: string = 'groups/';
   addPath: string = 'groups';
+  joinPath: string = 'groups/addToGroup/';
 
   constructor(private http: HttpClient) { }
 
   add(group: Group): Observable<Group> {
     return this.http.post<Group>(environment.apiUrl + this.addPath, group);
+  }
+
+  join(id: number): Observable<number> {
+    return this.http.put<number>(environment.apiUrl + this.joinPath + id, id);
   }
 
   all(): Observable<Group> {

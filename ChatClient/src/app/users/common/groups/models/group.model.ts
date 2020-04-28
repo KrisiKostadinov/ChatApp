@@ -5,5 +5,6 @@ export class Group {
     email: string;
     subject: string;
     description: string;
-    usersGroupsCount: number;
+    users: Array<any>;
+    isJoined: boolean = false;
 }

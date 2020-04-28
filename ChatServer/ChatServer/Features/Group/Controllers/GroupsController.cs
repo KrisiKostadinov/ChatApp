@@ -75,6 +75,10 @@ namespace ChatServer.Features.Group.Controllers
         public async Task<ActionResult<GroupResponseModel>> ById(int id)
         {
             var group = await this.groupService.ById(id);
+
+            group.isJoined = group.Users
+                .Any(x => x.UserId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
             if (group == null)
             {
                 return NotFound();
