@@ -14,6 +14,7 @@ export class GroupsService {
   addPath: string = 'groups';
   joinPath: string = 'groups/addToGroup/';
   exitPath: string = 'groups/removeFromGroup/';
+  editPath: string = 'groups/';
 
   constructor(private http: HttpClient) { }
 
@@ -35,5 +36,9 @@ export class GroupsService {
 
   byId(id: number): Observable<Group> {
     return this.http.get<Group>(environment.apiUrl + this.byIdPath + id);
+  }
+  
+  edit(id: number, group: Group): Observable<number> {
+    return this.http.put<number>(environment.apiUrl + this.byIdPath + id, group);
   }
 }

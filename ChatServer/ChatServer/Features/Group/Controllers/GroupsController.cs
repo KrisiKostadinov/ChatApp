@@ -79,6 +79,8 @@ namespace ChatServer.Features.Group.Controllers
             group.isJoined = group.Users
                 .Any(x => x.UserId.Contains(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
+            group.IsMy = this.User.FindFirstValue(ClaimTypes.NameIdentifier) == group.OwnerId;
+
             if (group == null)
             {
                 return NotFound();
@@ -96,8 +98,7 @@ namespace ChatServer.Features.Group.Controllers
 
             if (result.Succeeded)
             {
-                var newGroup = await this.groupService.ById(id);
-                return Ok(newGroup);
+                return Ok(group.Id);
             }
 
             return BadRequest(result.Errors);

@@ -53,4 +53,8 @@ export class GroupDetailsComponent implements OnInit {
       this.toastrService.error('Exit was successfully!', 'Exit!', { closeButton: true, progressBar: true, extendedTimeOut: 2000, timeOut: 2000 });
     });
   }
+
+  edit() {
+    this.router.navigate(['groups/edit', this.id]); 
+  }
 }

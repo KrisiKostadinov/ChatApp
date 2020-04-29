@@ -18,6 +18,8 @@ namespace ChatServer.Features.Group.Models
 
         public bool isJoined { get; set; }
 
+        public bool IsMy { get; set; }
+
         public string OwnerId { get; set; }
 
         public string UserName { get; set; }

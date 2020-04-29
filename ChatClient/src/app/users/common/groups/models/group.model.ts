@@ -7,4 +7,5 @@ export class Group {
     description: string;
     users: Array<any>;
     isJoined: boolean = false;
+    isMy: boolean = false;
 }

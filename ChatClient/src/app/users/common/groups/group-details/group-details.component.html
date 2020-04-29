@@ -15,5 +15,6 @@
         <button class="mt-2 ml-2 btn btn-outline-danger" (click)="back()">Back</button>
         <button *ngIf="!group.isJoined" class="mt-2 ml-2 btn btn-outline-success" (click)="join()">Join to this group</button>
         <button *ngIf="group.isJoined" class="mt-2 ml-2 btn btn-outline-danger" (click)="exit()">Exit to this group</button>
+        <button *ngIf="group.isMy" class="mt-2 ml-2 btn btn-outline-warning" (click)="edit()">Edit</button>
     </div>
 </div>

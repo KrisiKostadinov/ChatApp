@@ -8,6 +8,7 @@ import { ChatComponent } from './users/common/chat/chat.component';
 import { IndexComponent } from './users/common/index/index.component';
 import { GroupDetailsComponent } from './users/common/groups/group-details/group-details.component';
 import { AddGroupComponent } from './users/common/groups/add-group/add-group.component';
+import { EditGroupComponent } from './users/common/groups/edit-group/edit-group.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   {
     path: 'groups', children: [
       { path: 'details/:id', component: GroupDetailsComponent },
-      { path: 'add', component: AddGroupComponent }
+      { path: 'add', component: AddGroupComponent },
+      { path: 'edit/:id', component: EditGroupComponent }
     ]
   }
 ];

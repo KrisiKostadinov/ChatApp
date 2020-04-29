@@ -1,0 +1,32 @@
+.container {
+    margin-top: 2em;
+}
+
+.container label {
+    width: 100%;
+    margin-top: 1em;
+}
+
+label:first-child {
+    margin-top: 0;
+}
+
+.container form {
+    width: 60%;
+    min-width: 400px;
+    margin: 0 auto;
+    padding: 0 2em 0;
+}
+
+.container form .input-group input {
+    width: 100%;
+}
+
+textarea {
+    min-height: 200px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+}

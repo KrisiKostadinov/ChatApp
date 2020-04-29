@@ -16,6 +16,7 @@ import { GroupsService } from './common/groups/groups.service';
 import { GroupDetailsComponent } from './common/groups/group-details/group-details.component';
 import { AddGroupComponent } from './common/groups/add-group/add-group.component';
 import { CapitalizePipe } from '../filters/capitalize.pipe';
+import { EditGroupComponent } from './common/groups/edit-group/edit-group.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CapitalizePipe } from '../filters/capitalize.pipe';
     IndexComponent,
     ListAllGroupsComponent,
     GroupDetailsComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    EditGroupComponent
   ],
   imports: [
     CommonModule,
