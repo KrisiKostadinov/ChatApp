@@ -1,0 +1,6 @@
+<div class="groups mt-4">
+    <h4 class="header">Friends</h4>
+    <ul *ngIf="friends" class="groups-list">
+      <a *ngFor="let friend of friends" class="group-item" routerLink="/users/chat/{{friend.userId}}">{{ friend.userName }}</a>
+    </ul>
+</div>
