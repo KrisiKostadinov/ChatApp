@@ -49,14 +49,18 @@ namespace ChatServer.Features.User.Controllers
         }
 
         [HttpGet]
-        [Route("all/{userId}")]
-        public async Task<ActionResult<IEnumerable<FriendResponseModel>>> GetAllById(string userId)
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<FriendResponseModel>>> GetAllById()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (userId == null)
             {
                 return BadRequest();
             }
+
             var friends = await this.friendsService.GetAllById(userId);
+
             return friends.ToList();
         }
 

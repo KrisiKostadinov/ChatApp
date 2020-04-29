@@ -19,7 +19,7 @@ const routes: Routes = [
   ] },
   { path: 'users', canActivate: [AuthGourdService], children: [
     { path: 'details/:id', component: UserDetailsComponent },
-    { path: 'chat', component: ChatComponent }
+    { path: 'chat/:id', component: ChatComponent }
   ] },
   {
     path: 'groups', children: [

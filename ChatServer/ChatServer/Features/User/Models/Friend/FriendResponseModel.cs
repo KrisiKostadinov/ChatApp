@@ -6,6 +6,8 @@ namespace ChatServer.Features.User.Models.Friend
 {
     public class FriendResponseModel : IMapFrom<AboutUser>, IHaveCustomMappings
     {
+        public string UserId { get; set; }
+
         public string UserName { get; set; }
 
         public string Email { get; set; }

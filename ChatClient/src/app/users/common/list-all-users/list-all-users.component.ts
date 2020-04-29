@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user.model';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-list-all-users',
@@ -8,9 +10,17 @@ import { UsersService } from '../../services/users.service';
 })
 export class ListAllUsersComponent implements OnInit {
 
-  users;
+  users: User[];
 
-  constructor(private usersService: UsersService) { }
+  searchForm: FormGroup;
+
+  constructor(
+    private usersService: UsersService,
+    private fb: FormBuilder) {
+      this.searchForm = this.fb.group({
+        'search': ['', [Validators.required]]
+      });
+    }
 
   ngOnInit(): void {
     this.usersService.getAllUsers().subscribe(data => {
@@ -18,4 +28,7 @@ export class ListAllUsersComponent implements OnInit {
     });
   }
 
+  search() {
+    console.log(this.searchForm.value);
+  }
 }

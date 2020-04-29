@@ -51,8 +51,8 @@ export class UsersService {
     return false;
   }
 
-  getAllUsers(): Observable<User> {
-    return this.http.get<User>(this.getAllUsersPath);
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.getAllUsersPath);
   }
 
   getUserById(id: string): Observable<User> {

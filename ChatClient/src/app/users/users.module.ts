@@ -19,6 +19,8 @@ import { CapitalizePipe } from '../filters/capitalize.pipe';
 import { EditGroupComponent } from './common/groups/edit-group/edit-group.component';
 import { DismissGroupComponent } from './common/groups/dismiss-group/dismiss-group.component';
 import { ToastrModule } from 'ngx-toastr';
+import { ListAllFriendsComponent } from './common/list-all-friends/list-all-friends.component';
+import { FriendsService } from './services/friends.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
     GroupDetailsComponent,
     AddGroupComponent,
     EditGroupComponent,
-    DismissGroupComponent
+    DismissGroupComponent,
+    ListAllFriendsComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +54,7 @@ import { ToastrModule } from 'ngx-toastr';
     UsersService,
     AuthGourdService,
     GroupsService,
+    FriendsService,
   ]
 })
 export class UsersModule { }

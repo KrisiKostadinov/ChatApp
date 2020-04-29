@@ -31,8 +31,8 @@ export class GroupsService {
     return this.http.delete<number>(environment.apiUrl + this.exitPath + id);
   }
   
-  all(): Observable<Group> {
-    return this.http.get<Group>(environment.apiUrl + this.allPath);
+  all(): Observable<Group[]> {
+    return this.http.get<Group[]>(environment.apiUrl + this.allPath);
   }
 
   byId(id: number): Observable<Group> {
