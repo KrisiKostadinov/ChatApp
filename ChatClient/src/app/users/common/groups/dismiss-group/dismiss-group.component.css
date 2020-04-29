@@ -1,0 +1,29 @@
+.dialog {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+}
+
+.dialog i {
+    font-size: 2em;
+    background-color: #ff0000;
+    border-radius: 50%;
+    padding: 1em;
+    color: #ffffff;
+    margin-bottom: 1em;
+}
+
+.dialog .btns button {
+    padding: 0.7em 1em;
+    border: none;
+    margin: 0 1em;
+    border-radius: 25px;
+}
+
+button {
+    outline: none;
+}
+
+.btn-danger {
+    color: #ffffff;
+    background-color: #ff0000;
+}

@@ -17,6 +17,8 @@ import { GroupDetailsComponent } from './common/groups/group-details/group-detai
 import { AddGroupComponent } from './common/groups/add-group/add-group.component';
 import { CapitalizePipe } from '../filters/capitalize.pipe';
 import { EditGroupComponent } from './common/groups/edit-group/edit-group.component';
+import { DismissGroupComponent } from './common/groups/dismiss-group/dismiss-group.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,13 +32,20 @@ import { EditGroupComponent } from './common/groups/edit-group/edit-group.compon
     ListAllGroupsComponent,
     GroupDetailsComponent,
     AddGroupComponent,
-    EditGroupComponent
+    EditGroupComponent,
+    DismissGroupComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    ToastrModule.forRoot({
+      toastComponent: DismissGroupComponent
+    })
+  ],
+  entryComponents: [
+    DismissGroupComponent
   ],
   providers: [
     UsersService,

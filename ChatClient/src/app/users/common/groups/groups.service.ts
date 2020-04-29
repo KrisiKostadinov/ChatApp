@@ -15,6 +15,7 @@ export class GroupsService {
   joinPath: string = 'groups/addToGroup/';
   exitPath: string = 'groups/removeFromGroup/';
   editPath: string = 'groups/';
+  dismissPath: string = 'groups/';
 
   constructor(private http: HttpClient) { }
 
@@ -40,5 +41,9 @@ export class GroupsService {
   
   edit(id: number, group: Group): Observable<number> {
     return this.http.put<number>(environment.apiUrl + this.byIdPath + id, group);
+  }
+
+  dismiss(id: number): Observable<any> {
+    return this.http.delete(environment.apiUrl + this.dismissPath + id);
   }
 }

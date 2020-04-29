@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GroupsService } from '../groups.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Group } from '../models/group.model';
 import { ToastrService } from 'ngx-toastr';
+import { DismissGroupComponent } from '../dismiss-group/dismiss-group.component';
 
 @Component({
   selector: 'app-group-details',
@@ -14,7 +15,10 @@ export class GroupDetailsComponent implements OnInit {
   group: Group;
 
   id: number;
+  onDismissing: boolean = false;
 
+  @ViewChild(DismissGroupComponent) dismiss;
+  
   constructor(
     public groupService: GroupsService,
     private route: ActivatedRoute,
@@ -56,5 +60,19 @@ export class GroupDetailsComponent implements OnInit {
 
   edit() {
     this.router.navigate(['groups/edit', this.id]); 
+  }
+
+  dismissing($event) {
+    this.onDismissing = $event;
+    if(this.onDismissing) {
+      this.groupService.dismiss(this.id).subscribe(() => {
+        this.router.navigate(['']);
+        this.toastrService.error("Deleted!", "The group was deleted successful.");
+      }, errors => console.log(errors));
+    }
+  }
+
+  onDismiss() {
+    this.onDismissing = true;
   }
 }
