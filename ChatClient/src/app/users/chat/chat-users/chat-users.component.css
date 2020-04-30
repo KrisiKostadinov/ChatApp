@@ -1,0 +1,46 @@
+form button {
+    padding: 0.7em 1em;
+}
+
+form input {
+    padding: 1em 1.2em;
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    border: none;
+    box-shadow: 0 0 2px #22222277;
+}
+
+input,
+button {
+    outline: none;
+}
+
+.list-messages {
+    list-style: none;
+    min-height: 220px;
+    padding: 1em;
+    background-color: #cccccc22;
+    border-radius: 2px;
+    box-shadow: 0 0 2px #22222277;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-messages li {
+    width: fit-content;
+    padding: 0.4em 0.7em;
+    margin-bottom: 1em;
+    border-radius: 2em;
+    color: #fff;
+}
+
+.msg-my {
+    background-color: #6f00ff;
+    align-self: flex-start;
+}
+
+.msg-friend {
+    background-color: #ccc;
+    align-self: flex-end;
+}

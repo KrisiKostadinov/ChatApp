@@ -77,6 +77,7 @@ namespace ChatServer.Features.Identity.Controllers
                 Token = token,
                 Email = user.Email,
                 UserName = user.UserName,
+                Id = user.Id,
             };
         }
     }

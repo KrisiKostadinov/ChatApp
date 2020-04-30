@@ -21,6 +21,7 @@ import { DismissGroupComponent } from './common/groups/dismiss-group/dismiss-gro
 import { ToastrModule } from 'ngx-toastr';
 import { ListAllFriendsComponent } from './common/list-all-friends/list-all-friends.component';
 import { FriendsService } from './services/friends.service';
+import { ChatUsersComponent } from './chat/chat-users/chat-users.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { FriendsService } from './services/friends.service';
     AddGroupComponent,
     EditGroupComponent,
     DismissGroupComponent,
-    ListAllFriendsComponent
+    ListAllFriendsComponent,
+    ChatUsersComponent
   ],
   imports: [
     CommonModule,

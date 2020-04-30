@@ -9,6 +9,7 @@ import { IndexComponent } from './users/common/index/index.component';
 import { GroupDetailsComponent } from './users/common/groups/group-details/group-details.component';
 import { AddGroupComponent } from './users/common/groups/add-group/add-group.component';
 import { EditGroupComponent } from './users/common/groups/edit-group/edit-group.component';
+import { ChatUsersComponent } from './users/chat/chat-users/chat-users.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,7 @@ const routes: Routes = [
   ] },
   { path: 'users', canActivate: [AuthGourdService], children: [
     { path: 'details/:id', component: UserDetailsComponent },
-    { path: 'chat/:id', component: ChatComponent }
+    { path: 'chat', component: ChatUsersComponent }
   ] },
   {
     path: 'groups', children: [
