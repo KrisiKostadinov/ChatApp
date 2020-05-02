@@ -6,10 +6,6 @@ namespace ChatServer.Data.Models.Group
     {
         public int Id { get; set; }
 
-        public int GroupId { get; set; }
-
-        public Group Subject { get; set; }
-
         public string Content { get; set; }
 
         public string SenderId { get; set; }

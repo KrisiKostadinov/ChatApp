@@ -1,4 +1,5 @@
 ﻿using ChatServer.Common.Extentions;
+using ChatServer.Data.Models.Group;
 using ChatServer.Data.Models.User;
 using ChatServer.Data.Models.User.Request;
 using ChatServer.Features.User.Models.Friend;
@@ -21,5 +22,7 @@ namespace ChatServer.Features.User.Services
         Task<IEnumerable<RequestResponseModel>> ListAllRequestsByUserId(string currentUserId);
 
         //Task<FriendResponseModel> ById(string currentUserId, string userId);
+
+        Task<Result> AddMessageOfUser(Message message);
     }
 }

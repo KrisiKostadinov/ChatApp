@@ -2,6 +2,7 @@
 using ChatServer.Common.Extentions;
 using ChatServer.Common.Mapping;
 using ChatServer.Data;
+using ChatServer.Data.Models.Group;
 using ChatServer.Data.Models.User;
 using ChatServer.Data.Models.User.Request;
 using ChatServer.Features.User.Models.Friend;
@@ -157,6 +158,13 @@ namespace ChatServer.Features.User.Services
                 .ToListAsync();
 
             return requests;
+        }
+
+        public async Task<Result> AddMessageOfUser(Message message)
+        {
+            await this.context.Messages.AddAsync(message);
+            await this.context.SaveChangesAsync();
+            return Result.Success;
         }
 
         //public async Task<FriendResponseModel> ById(string currentUserId, string userId)

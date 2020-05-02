@@ -1,5 +1,6 @@
-﻿using ChatServer.Features.Group.Models;
-using ChatServer.Features.Group.Services;
+﻿using ChatServer.Data.Models.Group;
+using ChatServer.Features.Group.Models;
+using ChatServer.Features.User.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -13,11 +14,11 @@ namespace ChatServer.Hubs
     public class IndexChatHub : Hub
     {
         static HashSet<MessageResponseModel> CurrentConnections = new HashSet<MessageResponseModel>();
-        private readonly IGroupService groupService;
+        private readonly IFriendsService friendsService;
 
-        public IndexChatHub(IGroupService groupService)
+        public IndexChatHub(IFriendsService friendsService)
         {
-            this.groupService = groupService;
+            this.friendsService = friendsService;
         }
 
         //public async Task AddToGroup(string group)
@@ -60,10 +61,20 @@ namespace ChatServer.Hubs
                 await Clients.Client(connectionId).SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
                 await Clients.Caller.SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
             }
-            else
+
+            var receiverId = CurrentConnections
+                .Where(x => x.ConnectionId == connectionId)
+                .Select(x => x.UserId)
+                .FirstOrDefault();
+
+            var messageModel = new Message
             {
-                //TO DB
-            }
+                Content = content,
+                ReceiverId = receiverId,
+                SenderId = this.Context.UserIdentifier,
+            };
+
+            await this.friendsService.AddMessageOfUser(messageModel);
         }
 
         public Task SendMessageToAll(string msg)
@@ -89,6 +100,7 @@ namespace ChatServer.Hubs
                 await Clients.Caller.SendAsync("UserConnected", otherUser.ConnectionId, otherUser.UserId);
                 await Clients.Client(otherUser.ConnectionId).SendAsync("UserConnected", currentUser.ConnectionId, currentUser.UserId);
             }
+
             await base.OnConnectedAsync();
         }
 

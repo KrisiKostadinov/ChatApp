@@ -223,7 +223,6 @@ namespace ChatServer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     SenderId = table.Column<string>(nullable: true),
                     ReceiverId = table.Column<string>(nullable: true)
@@ -231,12 +230,6 @@ namespace ChatServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Groups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Messages_AspNetUsers_ReceiverId",
                         column: x => x.ReceiverId,
@@ -323,11 +316,6 @@ namespace ChatServer.Migrations
                 name: "IX_Groups_OwnerId",
                 table: "Groups",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_GroupId",
-                table: "Messages",
-                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
