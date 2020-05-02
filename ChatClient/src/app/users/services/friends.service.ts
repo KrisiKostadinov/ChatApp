@@ -11,9 +11,15 @@ export class FriendsService {
 
   allPath: string = 'friends/all/';
 
+  addPath: string = 'friends/';
+
   constructor(private http: HttpClient) { }
 
   all():Observable<Friend[]> {
     return this.http.get<Friend[]>(environment.apiUrl + this.allPath);
+  }
+
+  add(userId: string): Observable<string> {
+    return this.http.post<string>(environment.apiUrl + this.addPath, userId);
   }
 }

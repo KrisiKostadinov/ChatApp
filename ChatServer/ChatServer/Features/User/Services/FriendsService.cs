@@ -3,8 +3,11 @@ using ChatServer.Common.Extentions;
 using ChatServer.Common.Mapping;
 using ChatServer.Data;
 using ChatServer.Data.Models.User;
+using ChatServer.Data.Models.User.Request;
 using ChatServer.Features.User.Models.Friend;
+using ChatServer.Features.User.Models.Request;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,12 +38,7 @@ namespace ChatServer.Features.User.Services
                     new Error("Dublicate Ids", $"The first and second user they must be different."));
             }
 
-            var checkForFriends = this.context.Friends
-                .FirstOrDefault(
-                    u => u.CurrentUserId == friend.CurrentUserId &&
-                    u.OtherUserId == friend.OtherUserId ||
-                    u.OtherUserId == friend.CurrentUserId &&
-                    u.CurrentUserId == friend.OtherUserId);
+            var checkForFriends = await CheckForFriends(friend.CurrentUserId, friend.OtherUserId);
 
             if (checkForFriends != null)
             {
@@ -50,6 +48,50 @@ namespace ChatServer.Features.User.Services
 
             this.context.Friends.Add(friend);
             await this.context.SaveChangesAsync();
+            return Result.Success;
+        }
+
+        private async Task<Friend> CheckForFriends(string currentUserId, string otherUserId)
+        {
+            return await this.context.Friends
+                .Where(
+                    u => u.CurrentUserId == currentUserId &&
+                    u.OtherUserId == otherUserId ||
+                    u.OtherUserId == currentUserId &&
+                    u.CurrentUserId == otherUserId)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Result> AddRequest(Request request)
+        {
+            if (request.UserId == null || request.UserIdFrom == null)
+            {
+                return Result.Failed(
+                    new Error("Invalid operation", $"The ids not be null."));
+            }
+
+            var isContans = await this.context
+                .Requests
+                .Where(r => r.UserIdFrom == request.UserIdFrom && r.UserId == request.UserId)
+                .FirstOrDefaultAsync();
+
+            var isFriends = await CheckForFriends(request.UserIdFrom, request.UserId);
+
+            if (isFriends != null)
+            {
+                return Result.Failed(
+                    new Error("Invalid operation", $"These users is friends."));
+            }
+
+            if (isContans != null)
+            {
+                return Result.Failed(
+                    new Error("Invalid operation", $"These ids is exists."));
+            }
+
+            await this.context.Requests.AddAsync(request);
+            await this.context.SaveChangesAsync();
+
             return Result.Success;
         }
 
@@ -105,5 +147,29 @@ namespace ChatServer.Features.User.Services
 
             return Result.Success;
         }
+
+        public async Task<IEnumerable<RequestResponseModel>> ListAllRequestsByUserId(string currentUserId)
+        {
+            var requests = await this.context
+                .Requests
+                .Where(x => x.UserIdFrom == currentUserId)
+                .To<RequestResponseModel>()
+                .ToListAsync();
+
+            return requests;
+        }
+
+        //public async Task<FriendResponseModel> ById(string currentUserId, string userId)
+        //{
+        //    var friend = await this.context
+        //        .Friends
+        //        .Where(x => x.OtherUserId == userId ||
+        //            x.CurrentUserId == userId &&
+        //            x.CurrentUserId == currentUserId ||
+        //            x.OtherUserId == currentUserId)
+        //        .To<FriendResponseModel>()
+        //        .FirstOrDefaultAsync();
+        //    return friend;
+        //}
     }
 }

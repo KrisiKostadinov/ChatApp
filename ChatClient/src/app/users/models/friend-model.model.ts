@@ -4,6 +4,8 @@ export class FriendModel {
         this.connectionId = connectionId;
     }
     
+    userId: string;
     connectionId: string;
     userName: string;
+    liveOn: boolean = false;
 }

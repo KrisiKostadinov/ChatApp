@@ -10,14 +10,27 @@ form input {
     box-shadow: 0 0 2px #22222277;
 }
 
+.live-on {
+  color: transparent;
+  text-shadow: 0 0 0 #6f00ff;
+}
+
+.live-off {
+    color: transparent;
+    text-shadow: 0 0 0 #ff3300;
+}
+
 input,
 button {
     outline: none;
 }
 
 .list-messages {
+    scroll-behavior: smooth;
     list-style: none;
-    min-height: 220px;
+    overflow-y: scroll;
+    min-height: 200px;
+    max-height: 200px;
     padding: 1em;
     background-color: #cccccc22;
     border-radius: 2px;
@@ -38,9 +51,33 @@ button {
 .msg-my {
     background-color: #6f00ff;
     align-self: flex-start;
+    animation: show-msg-my 200ms ease-in forwards;
 }
 
 .msg-friend {
     background-color: #ccc;
     align-self: flex-end;
+    animation: show-msg-friend 200ms ease-in forwards;
+}
+
+@keyframes show-msg-friend {
+    from {
+        transform: translateX(+20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes show-msg-my {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

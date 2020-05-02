@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
+import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-list-all-friends',
@@ -9,13 +11,29 @@ import { FriendsService } from '../../services/friends.service';
 })
 export class ListAllFriendsComponent implements OnInit {
 
-  friends: Friend[];
+  friends: Friend[] = [];
 
-  constructor(private friendsService: FriendsService) { }
+  users: User[] = [];
+
+  constructor(
+    private friendsService: FriendsService,
+    private usersService: UsersService) { }
 
   ngOnInit(): void {
     this.friendsService.all().subscribe(data => {
       this.friends = data;
+    });
+  }
+
+  fintFriends() {
+    this.usersService.getAllUsers().subscribe(users => {
+      this.users = users;
+    });
+  }
+
+  addFriend(userId: string) {
+    this.friendsService.add(userId).subscribe(userId => {
+      console.log(userId);
     });
   }
 }

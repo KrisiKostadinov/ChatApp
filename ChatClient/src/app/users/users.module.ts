@@ -38,7 +38,7 @@ import { ChatUsersComponent } from './chat/chat-users/chat-users.component';
     EditGroupComponent,
     DismissGroupComponent,
     ListAllFriendsComponent,
-    ChatUsersComponent
+    ChatUsersComponent,
   ],
   imports: [
     CommonModule,

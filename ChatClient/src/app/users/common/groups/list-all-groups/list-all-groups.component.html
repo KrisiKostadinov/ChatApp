@@ -3,4 +3,7 @@
     <ul class="groups-list">
       <a *ngFor="let group of groups" class="group-item" routerLink="/groups/details/{{group.id}}">{{ group.subject }}</a>
     </ul>
+    <div class="m-2 text-center" *ngIf="groups.length === 0">
+      <p>No groups</p>
+    </div>
 </div>

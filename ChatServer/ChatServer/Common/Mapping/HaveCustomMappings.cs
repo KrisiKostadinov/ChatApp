@@ -2,6 +2,7 @@
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
 using ChatServer.Features.User.Models.Friend;
+using ChatServer.Features.User.Models.Request;
 
 namespace ChatServer.Common.Mapping
 {
@@ -12,6 +13,7 @@ namespace ChatServer.Common.Mapping
             configuration.CreateMap<AboutUser, AboutUserResponseModel>();
             configuration.CreateMap<ApplicationUser, AboutUserResponseModel>();
             configuration.CreateMap<Friend, FriendResponseModel>();
+            configuration.CreateMap<string, RequestResponseModel>();
         }
     }
 }

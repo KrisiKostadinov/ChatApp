@@ -9,7 +9,7 @@ import { Group } from '../models/group.model';
 })
 export class ListAllGroupsComponent implements OnInit {
 
-  groups: Group[];
+  groups: Group[] = [];
 
   constructor(public groupsService: GroupsService) { }
 

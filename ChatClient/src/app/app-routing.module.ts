@@ -4,7 +4,6 @@ import { LoginComponent } from './users/login/login.component';
 import { RegisterComponent } from './users/register/register.component';
 import { UserDetailsComponent } from './users/common/user-details/user-details.component';
 import { AuthGourdService } from './users/services/auth-guard.service';
-import { ChatComponent } from './users/common/chat/chat.component';
 import { IndexComponent } from './users/common/index/index.component';
 import { GroupDetailsComponent } from './users/common/groups/group-details/group-details.component';
 import { AddGroupComponent } from './users/common/groups/add-group/add-group.component';

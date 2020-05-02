@@ -1,17 +1,41 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-4">
-            <app-list-all-friends></app-list-all-friends>
+            <div class="groups mt-4">
+                <h4 class="header">Friends</h4>
+                <ul *ngIf="friends.length > 0" class="groups-list">
+                  <a *ngFor="let friend of friends" class="group-item" (click)="selectFriend(friend.userId)">{{ friend.userName }} 
+                    <span [ngClass]="{'live-on': friend?.liveOn, 'live-off': !friend?.liveOn}">🔴</span>
+                  </a>
+                </ul>
+                <!-- <div class="m-2 text-center">
+                  <p *ngIf="friends.length === 0">No friends</p>
+                  <button (click)="fintFriends()" class="btn btn-primary">Find friends</button>
+                </div> -->
+                <!-- <ul class="groups-list">
+                  <li class="group-item d-flex justify-content-between align-items-center" (click)="addFriend(user.userId)" *ngFor="let user of users">{{ user.userName }}
+                    <button class="btn btn-link">Add friend</button>
+                  </li>
+                </ul> -->
+            </div>
         </div>
         <div class="col-lg-4 p-2 pt-3">
-            <h4>Chat with: {{ friend.userName }}</h4>
-            <ul class="list-messages">
-                <li *ngFor="let msg of messages" [ngClass]="{'msg-my': user.userName==msg.userName, 'msg-friend': user.userName!=msg.userName}">{{ msg.userName }} - {{ msg.content }}</li>
-            </ul>
-            <form [formGroup]="chatForm" class="d-flex justify-content-between">
-                <input type="text" class="w-100" formControlName="text">
-                <button class="btn-primary" (click)="send()">Send</button>
-            </form>
+            <div *ngIf="currentFriend else unselectedUser">
+                <h4>
+                    <span [ngClass]="{'live-on': currentFriend?.liveOn, 'live-off': !currentFriend?.liveOn}">🔴</span>
+                    {{ currentFriend?.userName }}
+                </h4>
+                <ul #scroll class="list-messages">
+                    <li *ngFor="let msg of messages" [ngClass]="{'msg-my': user.userName==msg.userName, 'msg-friend': user.userName!=msg.userName}">{{ msg.userName }} - {{ msg.content }}</li>
+                </ul>
+                <form [formGroup]="chatForm" class="d-flex justify-content-between">
+                    <input autofocus type="text" class="w-100" formControlName="text" [ngClass]="{'border border-danger': text.errors?.danger}">
+                    <button class="btn-primary" (click)="send()">Send</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+<ng-template #unselectedUser>
+    <p class="text-center">Select any friend to chat!</p>
+</ng-template>

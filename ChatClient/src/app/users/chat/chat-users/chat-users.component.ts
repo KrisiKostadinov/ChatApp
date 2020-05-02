@@ -1,64 +1,126 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as signalR from "@aspnet/signalr";
 import { environment } from 'src/environments/environment';
-import { FriendModel } from '../../models/friend-model.model';
 import { MessageModel } from '../../models/message-model.model';
-import { User } from '../../models/user.model';
+import { Friend } from '../../models/friend.model';
+import { FriendsService } from '../../services/friends.service';
 
 @Component({
   selector: 'app-chat-users',
   templateUrl: './chat-users.component.html',
   styleUrls: ['./chat-users.component.css']
 })
-export class ChatUsersComponent implements OnInit {
+export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   connection: signalR.HubConnection;
   chatForm: FormGroup;
   messages: MessageModel[] = [];
-  friend: FriendModel = new FriendModel(null, null);
+  friends: Friend[] = [];
+
   user;
 
-  constructor(private fb: FormBuilder) {
+  currentFriend: Friend;
+
+  @ViewChild('scroll') private scroll: ElementRef;
+
+  constructor(
+    private fb: FormBuilder,
+    private friendsService: FriendsService) {
     this.chatForm = this.fb.group({
       'text': ['', [Validators.required]]
     });
   }
 
+  get text() {
+    return this.chatForm.get('text');
+  }
+
+  selectFriend(userId: string) {
+    this.currentFriend = this.friends.find(x => x.userId === userId);
+  }
+
+  ngAfterViewChecked() {        
+    this.scrollToBottom();
+  } 
+
+  public scrollToBottom() {
+    try {
+      this.scroll.nativeElement.scrollTop = this.scroll.nativeElement.scrollHeight - this.scroll.nativeElement.offsetHeight;
+    } catch(ex) {
+      console.log(ex);
+    }
+  }
+  
+  ngOnDestroy(): void {
+    this.connection.stop();
+  }
+
+  getFriends() {
+    return this.friendsService.all().toPromise();
+  }
+
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.connection = new signalR.HubConnectionBuilder()
-    .withUrl(environment.apiUrl + "users/chat", {
-      accessTokenFactory: () => localStorage.getItem('token')
-    })
-    .build();
     this.connect();
     this.getMessages();
+    this.getFriends().then(data => {
+      this.friends = data;
+    });
   }
 
   getMessages() {
     this.connection.on('ReceiveMsg', (userName, content) => {
       var model = new MessageModel(userName, content);
       this.messages.push(model);
-      console.log(userName, content);
     });
     this.connection.on('UserConnected', (connectionId, userId) => {
-      this.friend.userName = userId;
-      this.friend.connectionId = connectionId;
-
-      console.log(this.friend);
+      for(let i = 0; i < this.friends.length; i++) {
+        if(this.friends[i].userId === userId) {
+          this.friends[i].liveOn = true;
+          this.friends[i].connectionId = connectionId;
+          this.currentFriend = new Friend();
+          this.currentFriend.liveOn = true;
+          this.currentFriend.connectionId = connectionId;
+          this.selectFriend(userId);
+        }
+      }
+    });
+    this.connection.on('UserDisconnected', (userId) => {
+      for(let i = 0; i < this.friends.length; i++) {
+        if(this.friends[i].userId === userId) {
+          this.friends[i].liveOn = false;
+          this.friends[i].connectionId = '';
+        }
+      }
     });
   }
 
   connect() {
-    if (this.connection.state === signalR.HubConnectionState.Disconnected) {
+    this.connection = new signalR.HubConnectionBuilder()
+    .withUrl(environment.apiUrl + `users/chat`, {
+      accessTokenFactory: () => localStorage.getItem('token')
+    })
+    .build();
+    if(this.connection.state === signalR.HubConnectionState.Disconnected) {
       this.connection.start().then(() => {
         console.log('Started connection');
-      }).catch(err => console.log(err));
+      });
     }
   }
 
   send() {
-    this.connection.invoke('SendMessageToUser', this.friend.connectionId, this.chatForm.value.text);
+    if(this.chatForm.valid) {
+      this.connection.invoke('SendMessageToUser', this.currentFriend.connectionId, this.chatForm.value.text).then(() => {
+        this.chatForm.reset();
+        try {
+          this.scrollToBottom();
+        } catch(ex) {
+          console.log(ex);
+        }
+      });
+    } else {
+      this.chatForm.get('text').setErrors(['danger']);
+    }
   }
 }

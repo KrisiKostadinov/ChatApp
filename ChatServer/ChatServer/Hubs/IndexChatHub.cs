@@ -55,8 +55,15 @@ namespace ChatServer.Hubs
 
         public async Task SendMessageToUser(string connectionId, string content)
         {
-            await Clients.Client(connectionId).SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
-            await Clients.Caller.SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
+            if (connectionId != null)
+            {
+                await Clients.Client(connectionId).SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
+                await Clients.Caller.SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
+            }
+            else
+            {
+                //TO DB
+            }
         }
 
         public Task SendMessageToAll(string msg)
@@ -69,18 +76,18 @@ namespace ChatServer.Hubs
             var model = new MessageResponseModel
             {
                 ConnectionId = this.Context.ConnectionId,
-                UserName = this.Context.User.Identity.Name,
+                UserId = this.Context.UserIdentifier,
             };
 
             CurrentConnections.Add(model);
 
-            var otherUser = CurrentConnections.Where(x => x.UserName != this.Context.User.Identity.Name).FirstOrDefault();
-            var currentUser = CurrentConnections.Where(x => x.UserName == this.Context.User.Identity.Name).FirstOrDefault();
+            var otherUser = CurrentConnections.Where(x => x.UserId != this.Context.UserIdentifier).FirstOrDefault();
+            var currentUser = CurrentConnections.Where(x => x.UserId == this.Context.UserIdentifier).FirstOrDefault();
 
             if (otherUser != null)
             {
-                await Clients.Caller.SendAsync("UserConnected", otherUser.ConnectionId, otherUser.UserName);
-                await Clients.Client(otherUser.ConnectionId).SendAsync("UserConnected", currentUser.ConnectionId, currentUser.UserName);
+                await Clients.Caller.SendAsync("UserConnected", otherUser.ConnectionId, otherUser.UserId);
+                await Clients.Client(otherUser.ConnectionId).SendAsync("UserConnected", currentUser.ConnectionId, currentUser.UserId);
             }
             await base.OnConnectedAsync();
         }
@@ -88,7 +95,7 @@ namespace ChatServer.Hubs
         public override async Task OnDisconnectedAsync(Exception ex)
         {
             CurrentConnections.RemoveWhere(x => x.ConnectionId == this.Context.ConnectionId);
-            await Clients.Others.SendAsync("UserDisconnected", this.Context.User.Identity.Name);
+            await Clients.Others.SendAsync("UserDisconnected", this.Context.UserIdentifier);
 
             await base.OnDisconnectedAsync(ex);
         }
