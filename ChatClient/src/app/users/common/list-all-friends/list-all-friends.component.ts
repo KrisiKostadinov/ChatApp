@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
 import { UsersService } from '../../services/users.service';
@@ -14,6 +14,7 @@ export class ListAllFriendsComponent implements OnInit {
   friends: Friend[] = [];
 
   users: User[] = [];
+  @Output() onSelect: EventEmitter<Friend> = new EventEmitter<Friend>();
 
   constructor(
     private friendsService: FriendsService,
@@ -35,5 +36,9 @@ export class ListAllFriendsComponent implements OnInit {
     this.friendsService.add(userId).subscribe(userId => {
       console.log(userId);
     });
+  }
+
+  selectFriend(userId: string) {
+     this.onSelect.emit(this.friends.find(x => x.userId === userId));
   }
 }

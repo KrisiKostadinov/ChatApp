@@ -142,11 +142,10 @@ namespace ChatServer.Features.User.Controllers
         }
 
         [HttpGet]
-        [Route("messages")]
-        public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages()
+        [Route("messages/{firstUserId}/{secondUserId}")]
+        public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages(string firstUserId, string secondUserId)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var messages = await this.friendsService.GetAllMyMessages(userId);
+            var messages = await this.friendsService.GetAllMyMessages(firstUserId, secondUserId);
 
             return messages;
         }

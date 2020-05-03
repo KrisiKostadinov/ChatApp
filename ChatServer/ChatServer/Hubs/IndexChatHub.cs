@@ -73,16 +73,11 @@ namespace ChatServer.Hubs
                     .SendAsync("ReceiveMsg", receiver.UserName, receiver.UserId, sender.UserName, sender.UserId, content);
             }
 
-            var receiverId = CurrentConnections
-                .Where(x => x.ConnectionId == connectionId)
-                .Select(x => x.UserId)
-                .FirstOrDefault();
-
             var messageModel = new Message
             {
                 Content = content,
-                ReceiverId = receiverId,
-                SenderId = this.Context.UserIdentifier,
+                ReceiverId = receiver.UserId,
+                SenderId = sender.UserId,
             };
 
             await this.friendsService.AddMessageOfUser(messageModel);

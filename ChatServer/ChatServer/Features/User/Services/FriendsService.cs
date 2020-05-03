@@ -167,11 +167,12 @@ namespace ChatServer.Features.User.Services
             return Result.Success;
         }
 
-        public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages(string userId)
+        public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages(string firstUserId, string secondUserId)
         {
             var messages = await this.context
                 .Messages
-                .Where(x => x.ReceiverId == userId || x.SenderId == userId)
+                .Where(x => x.SenderId == secondUserId && x.ReceiverId == firstUserId ||
+                        x.SenderId == firstUserId && x.ReceiverId == secondUserId)
                 .To<MessageResponseModel>()
                 .ToListAsync();
 

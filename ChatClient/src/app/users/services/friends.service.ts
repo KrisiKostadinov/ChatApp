@@ -27,7 +27,7 @@ export class FriendsService {
     return this.http.post<string>(environment.apiUrl + this.addPath, userId);
   }
 
-  gerAllMyMessages(): Observable<MessageModel[]> {
-    return this.http.get<MessageModel[]>(environment.apiUrl + this.messagesPath);
+  gerAllMyMessages(firstUserId: string, secondUserId: string): Observable<MessageModel[]> {
+    return this.http.get<MessageModel[]>(environment.apiUrl + this.messagesPath + `/${firstUserId}/${secondUserId}`);
   }
 }

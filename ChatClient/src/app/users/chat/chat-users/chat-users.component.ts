@@ -6,6 +6,7 @@ import { MessageModel } from '../../models/message-model.model';
 import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
 import { User } from '../../models/user.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat-users',
@@ -21,13 +22,15 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   user: User;
 
-  currentFriend: Friend;
+  currentFriend: Friend = new Friend();
 
   @ViewChild('scroll') private scroll: ElementRef;
+  initialUserId: string;
 
   constructor(
     private fb: FormBuilder,
-    private friendsService: FriendsService) {
+    private friendsService: FriendsService,
+    private route: ActivatedRoute) {
     this.chatForm = this.fb.group({
       'text': ['', [Validators.required]]
     });
@@ -37,8 +40,19 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
     return this.chatForm.get('text');
   }
 
-  selectFriend(userId: string) {
-    this.currentFriend = this.friends.find(x => x.userId === userId);
+  selectedFriend(friend: Friend) {
+    this.initialUserId = friend.userId;
+
+    for(let i = 0; i < this.friends.length; i++) {
+      if(this.friends[i].userId === friend.userId) {
+        this.currentFriend = this.friends[i];
+        console.log(this.friends);
+      }
+    }
+    
+    this.getAllMyMessages(this.initialUserId).then(data => {
+      this.messages = data;
+    });
   }
 
   ngAfterViewChecked() {        
@@ -48,8 +62,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
   public scrollToBottom() {
     try {
       this.scroll.nativeElement.scrollTop = this.scroll.nativeElement.scrollHeight - this.scroll.nativeElement.offsetHeight;
-    } catch(ex) {
-      console.log(ex);
+    } catch {
     }
   }
   
@@ -61,20 +74,23 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
     return this.friendsService.all().toPromise();
   }
 
-  getAllMyMessages() {
-    return this.friendsService.gerAllMyMessages().toPromise();
+  getAllMyMessages(friendUserId: string = null) {
+    return this.friendsService.gerAllMyMessages(this.user.id, friendUserId).toPromise();
   }
 
   ngOnInit(): void {
-    this.getAllMyMessages().then(data => {
-      this.messages = data;
-      console.log(this.messages);
-    });
     this.user = JSON.parse(localStorage.getItem('user'));
+
+    this.initialUserId = this.route.snapshot.params['id'];
+    this.getAllMyMessages(this.initialUserId).then(data => {
+      this.messages = data;
+    });
     this.connect();
     this.getMessages();
     this.getFriends().then(data => {
       this.friends = data;
+      this.currentFriend = this.friends.find(x => x.userId === this.initialUserId);
+      console.log(this.currentFriend);
     });
   }
 
@@ -89,10 +105,8 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
         if(this.friends[i].userId === userId) {
           this.friends[i].liveOn = true;
           this.friends[i].connectionId = connectionId;
-          this.currentFriend = new Friend();
           this.currentFriend.liveOn = true;
           this.currentFriend.connectionId = connectionId;
-          this.selectFriend(userId);
         }
       }
     });
@@ -108,7 +122,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   connect() {
     this.connection = new signalR.HubConnectionBuilder()
-    .withUrl(environment.apiUrl + `users/chat`, {
+    .withUrl(environment.apiUrl + `users/chat/`, {
       accessTokenFactory: () => localStorage.getItem('token')
     })
     .build();
@@ -125,8 +139,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.chatForm.reset();
         try {
           this.scrollToBottom();
-        } catch(ex) {
-          console.log(ex);
+        } catch {
         }
       });
     } else {
