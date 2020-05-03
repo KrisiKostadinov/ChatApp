@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { MessageModel } from '../../models/message-model.model';
 import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-chat-users',
@@ -18,7 +19,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
   messages: MessageModel[] = [];
   friends: Friend[] = [];
 
-  user;
+  user: User;
 
   currentFriend: Friend;
 
@@ -60,7 +61,15 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
     return this.friendsService.all().toPromise();
   }
 
+  getAllMyMessages() {
+    return this.friendsService.gerAllMyMessages().toPromise();
+  }
+
   ngOnInit(): void {
+    this.getAllMyMessages().then(data => {
+      this.messages = data;
+      console.log(this.messages);
+    });
     this.user = JSON.parse(localStorage.getItem('user'));
     this.connect();
     this.getMessages();
@@ -70,10 +79,11 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getMessages() {
-    this.connection.on('ReceiveMsg', (userName, content) => {
-      var model = new MessageModel(userName, content);
+    this.connection.on('ReceiveMsg', (receiverUserName, receiverId, senderUserName, senderId, content) => {
+      var model = new MessageModel(receiverUserName, senderUserName, receiverId, senderId, content);
       this.messages.push(model);
     });
+    
     this.connection.on('UserConnected', (connectionId, userId) => {
       for(let i = 0; i < this.friends.length; i++) {
         if(this.friends[i].userId === userId) {

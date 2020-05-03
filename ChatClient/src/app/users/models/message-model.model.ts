@@ -1,9 +1,20 @@
 export class MessageModel {
-    constructor(userName: string = null, content: string = null) {
-        this.userName = userName;
-        this.content = content;
+    constructor(
+        receiverUserName: string,
+        senderUserName: string,
+        receiverId: string,
+        senderId: string,
+        content: string) {
+            this.receiverUserName = receiverUserName;
+            this.senderUserName = senderUserName;
+            this.receiverId = receiverId;
+            this.senderId = senderId;
+            this.content = content;
     }
 
     content: string;
-    userName: string;
+    receiverUserName: string;
+    receiverId: string;
+    senderUserName: string;
+    senderId: string;
 }

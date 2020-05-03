@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChatServer.Data.Models.Group;
 using ChatServer.Data.Models.User;
 using ChatServer.Features.User.Models;
 using ChatServer.Features.User.Models.Friend;
@@ -14,6 +15,7 @@ namespace ChatServer.Common.Mapping
             configuration.CreateMap<ApplicationUser, AboutUserResponseModel>();
             configuration.CreateMap<Friend, FriendResponseModel>();
             configuration.CreateMap<string, RequestResponseModel>();
+            configuration.CreateMap<Message, MessageResponseModel>();
         }
     }
 }

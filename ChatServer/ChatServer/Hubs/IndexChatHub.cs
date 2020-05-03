@@ -1,5 +1,5 @@
 ﻿using ChatServer.Data.Models.Group;
-using ChatServer.Features.Group.Models;
+using ChatServer.Features.User.Models.Friend;
 using ChatServer.Features.User.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -13,7 +13,7 @@ namespace ChatServer.Hubs
     [Authorize]
     public class IndexChatHub : Hub
     {
-        static HashSet<MessageResponseModel> CurrentConnections = new HashSet<MessageResponseModel>();
+        static HashSet<DbSetMessageModel> CurrentConnections = new HashSet<DbSetMessageModel>();
         private readonly IFriendsService friendsService;
 
         public IndexChatHub(IFriendsService friendsService)
@@ -56,10 +56,21 @@ namespace ChatServer.Hubs
 
         public async Task SendMessageToUser(string connectionId, string content)
         {
+            var receiver = CurrentConnections
+                .Where(x => x.ConnectionId == connectionId)
+                .FirstOrDefault();
+            var sender = CurrentConnections
+                .Where(x => x.ConnectionId == this.Context.ConnectionId)
+                .FirstOrDefault();
+
             if (connectionId != null)
             {
-                await Clients.Client(connectionId).SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
-                await Clients.Caller.SendAsync("ReceiveMsg", this.Context.User.Identity.Name, content);
+                await Clients
+                    .Client(connectionId)
+                    .SendAsync("ReceiveMsg", receiver.UserName, receiver.UserId, sender.UserName, sender.UserId, content);
+                await Clients
+                    .Caller
+                    .SendAsync("ReceiveMsg", receiver.UserName, receiver.UserId, sender.UserName, sender.UserId, content);
             }
 
             var receiverId = CurrentConnections
@@ -84,10 +95,11 @@ namespace ChatServer.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var model = new MessageResponseModel
+            var model = new DbSetMessageModel
             {
                 ConnectionId = this.Context.ConnectionId,
                 UserId = this.Context.UserIdentifier,
+                UserName = this.Context.User.Identity.Name,
             };
 
             CurrentConnections.Add(model);

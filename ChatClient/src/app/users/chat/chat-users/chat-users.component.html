@@ -26,7 +26,9 @@
                     {{ currentFriend?.userName }}
                 </h4>
                 <ul #scroll class="list-messages">
-                    <li *ngFor="let msg of messages" [ngClass]="{'msg-my': user.userName==msg.userName, 'msg-friend': user.userName!=msg.userName}">{{ msg.userName }} - {{ msg.content }}</li>
+                    <li *ngFor="let msg of messages" [ngClass]="{'msg-my': msg.senderId == user.id, 'msg-friend': msg.senderId != user.id}">
+                        <span><span *ngIf="msg.senderId == user.id">{{msg.senderUserName}}</span><span *ngIf="msg.receiverId == user.id">{{msg.senderUserName}}</span> - {{ msg.content }}</span>
+                    </li>
                 </ul>
                 <form [formGroup]="chatForm" class="d-flex justify-content-between">
                     <input autofocus type="text" class="w-100" formControlName="text" [ngClass]="{'border border-danger': text.errors?.danger}">

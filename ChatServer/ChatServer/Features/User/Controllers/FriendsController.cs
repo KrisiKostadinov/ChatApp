@@ -1,7 +1,6 @@
 ﻿using ChatServer.Controllers;
 using ChatServer.Data.Models.User;
 using ChatServer.Data.Models.User.Request;
-using ChatServer.Features.User.Models;
 using ChatServer.Features.User.Models.Friend;
 using ChatServer.Features.User.Models.Request;
 using ChatServer.Features.User.Services;
@@ -138,7 +137,18 @@ namespace ChatServer.Features.User.Controllers
             {
                 return Ok();
             }
+
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        [Route("messages")]
+        public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var messages = await this.friendsService.GetAllMyMessages(userId);
+
+            return messages;
         }
     }
 }

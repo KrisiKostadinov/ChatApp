@@ -167,6 +167,17 @@ namespace ChatServer.Features.User.Services
             return Result.Success;
         }
 
+        public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages(string userId)
+        {
+            var messages = await this.context
+                .Messages
+                .Where(x => x.ReceiverId == userId || x.SenderId == userId)
+                .To<MessageResponseModel>()
+                .ToListAsync();
+
+            return messages;
+        }
+
         //public async Task<FriendResponseModel> ById(string currentUserId, string userId)
         //{
         //    var friend = await this.context
