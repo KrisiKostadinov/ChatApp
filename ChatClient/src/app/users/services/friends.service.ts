@@ -3,19 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Friend } from '../models/friend.model';
 import { environment } from 'src/environments/environment';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { MessageModel } from '../models/message-model.model';
+import { RequestModel } from '../models/request-model.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FriendsService {
 
-  allPath: string = 'friends/all/';
-
-  addPath: string = 'friends/';
-
+  allPath: string = 'friends/all';
+  addRequestPath: string = 'friends/request/';
   messagesPath: string = 'friends/messages';
+  listAllMyRequestsPath: string = 'friends/requests/my';
+  listAllRequestsPath: string = 'friends/requests';
 
   constructor(private http: HttpClient) { }
 
@@ -23,11 +23,19 @@ export class FriendsService {
     return this.http.get<Friend[]>(environment.apiUrl + this.allPath);
   }
 
-  add(userId: string): Observable<string> {
-    return this.http.post<string>(environment.apiUrl + this.addPath, userId);
+  addRequest(userId: string): Observable<boolean> {
+    return this.http.post<boolean>(environment.apiUrl + this.addRequestPath + userId, userId);
   }
 
   gerAllMyMessages(firstUserId: string, secondUserId: string): Observable<MessageModel[]> {
     return this.http.get<MessageModel[]>(environment.apiUrl + this.messagesPath + `/${firstUserId}/${secondUserId}`);
+  }
+
+  getAllMyRequests(): Observable<RequestModel[]> {
+    return this.http.get<RequestModel[]>(environment.apiUrl + this.listAllMyRequestsPath);
+  }
+  
+  getAllRequests(): Observable<RequestModel[]> {
+    return this.http.get<RequestModel[]>(environment.apiUrl + this.listAllRequestsPath);
   }
 }

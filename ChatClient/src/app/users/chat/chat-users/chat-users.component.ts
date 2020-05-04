@@ -7,6 +7,7 @@ import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
 import { User } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
+import { RequestModel } from '../../models/request-model.model';
 
 @Component({
   selector: 'app-chat-users',
@@ -23,6 +24,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
   user: User;
 
   currentFriend: Friend = new Friend();
+  updatedMyRequests: RequestModel[];
 
   @ViewChild('scroll') private scroll: ElementRef;
   initialUserId: string;
@@ -75,7 +77,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getAllMyMessages(friendUserId: string = null) {
-    return this.friendsService.gerAllMyMessages(this.user.id, friendUserId).toPromise();
+    return this.friendsService.gerAllMyMessages(this.user.userId, friendUserId).toPromise();
   }
 
   ngOnInit(): void {
@@ -89,8 +91,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getMessages();
     this.getFriends().then(data => {
       this.friends = data;
-      this.currentFriend = this.friends.find(x => x.userId === this.initialUserId);
-      console.log(this.currentFriend);
+      this.currentFriend = this.friends.find(x => x?.userId === this.initialUserId);
     });
   }
 
@@ -122,7 +123,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   connect() {
     this.connection = new signalR.HubConnectionBuilder()
-    .withUrl(environment.apiUrl + `users/chat/`, {
+    .withUrl(environment.apiUrl + `users/chat`, {
       accessTokenFactory: () => localStorage.getItem('token')
     })
     .build();
@@ -145,5 +146,9 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.chatForm.get('text').setErrors(['danger']);
     }
+  }
+
+  updatingMyRequests(requests: RequestModel[]) {
+    this.updatedMyRequests = requests;
   }
 }

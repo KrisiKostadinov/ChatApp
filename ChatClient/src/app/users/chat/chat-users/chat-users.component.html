@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-4">
-            <app-list-all-friends (onSelect)="selectedFriend($event)"></app-list-all-friends>
+            <app-list-all-friends (onSelect)="selectedFriend($event)" (onUpdated)="updatingMyRequests($event)"></app-list-all-friends>
         </div>
         <div class="col-lg-4 p-2 pt-3">
             <div *ngIf="currentFriend else unselectedUser">
@@ -10,8 +10,8 @@
                     {{ currentFriend?.userName }}
                 </h4>
                 <ul #scroll class="list-messages">
-                    <li *ngFor="let msg of messages" [ngClass]="{'msg-my': msg.senderId == user.id, 'msg-friend': msg.senderId != user.id}">
-                        <span><span *ngIf="msg.senderId == user.id">{{msg.senderUserName}}</span><span *ngIf="msg.receiverId == user.id">{{msg.senderUserName}}</span> - {{ msg.content }}</span>
+                    <li *ngFor="let msg of messages" [ngClass]="{'msg-my': msg.senderId == user.userId, 'msg-friend': msg.senderId != user.userId}">
+                        <span><span *ngIf="msg.senderId == user.userId">{{msg.senderUserName}}</span><span *ngIf="msg.receiverId == user.userId">{{msg.senderUserName}}</span> - {{ msg.content }}</span>
                     </li>
                 </ul>
                 <form [formGroup]="chatForm" class="d-flex justify-content-between">
@@ -19,6 +19,9 @@
                     <button class="btn-primary" (click)="send()">Send</button>
                 </form>
             </div>
+        </div>
+        <div class="col-lg-4">
+            <app-list-all-my-requests [myRequests]="updatedMyRequests"></app-list-all-my-requests>
         </div>
     </div>
 </div>

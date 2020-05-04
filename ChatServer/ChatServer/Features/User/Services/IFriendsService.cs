@@ -26,5 +26,7 @@ namespace ChatServer.Features.User.Services
         Task<Result> AddMessageOfUser(Message message);
 
         Task<IEnumerable<MessageResponseModel>> GetAllMyMessages(string firstUserId, string secondUserId);
+
+        Task<IEnumerable<RequestResponseModel>> ListAllMyRequests(string userId);
     }
 }

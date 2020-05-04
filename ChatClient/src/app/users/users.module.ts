@@ -22,6 +22,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ListAllFriendsComponent } from './common/list-all-friends/list-all-friends.component';
 import { FriendsService } from './services/friends.service';
 import { ChatUsersComponent } from './chat/chat-users/chat-users.component';
+import { ListAllMyRequestsComponent } from './common/list-all-my-requests/list-all-my-requests.component';
+import { ListAllRequestsComponent } from './common/list-all-requests/list-all-requests.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { ChatUsersComponent } from './chat/chat-users/chat-users.component';
     DismissGroupComponent,
     ListAllFriendsComponent,
     ChatUsersComponent,
+    ListAllMyRequestsComponent,
+    ListAllRequestsComponent,
   ],
   imports: [
     CommonModule,

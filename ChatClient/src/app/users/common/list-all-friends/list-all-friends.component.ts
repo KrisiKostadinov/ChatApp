@@ -3,6 +3,7 @@ import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../models/user.model';
+import { RequestModel } from '../../models/request-model.model';
 
 @Component({
   selector: 'app-list-all-friends',
@@ -12,29 +13,59 @@ import { User } from '../../models/user.model';
 export class ListAllFriendsComponent implements OnInit {
 
   friends: Friend[] = [];
-
   users: User[] = [];
+  logedUser: any;
+  
   @Output() onSelect: EventEmitter<Friend> = new EventEmitter<Friend>();
+  @Output() onUpdated: EventEmitter<RequestModel[]> = new EventEmitter<RequestModel[]>();
 
   constructor(
     private friendsService: FriendsService,
     private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.logedUser = JSON.parse(localStorage.getItem('user'));
+
     this.friendsService.all().subscribe(data => {
       this.friends = data;
     });
   }
 
   fintFriends() {
-    this.usersService.getAllUsers().subscribe(users => {
-      this.users = users;
+    this.getAllUsers().then(users => {
+      this.getAllMyRequests().then(requests => {
+        this.updateRequests(users, requests);
+      });
     });
   }
 
-  addFriend(userId: string) {
-    this.friendsService.add(userId).subscribe(userId => {
-      console.log(userId);
+  updateRequests(users: User[], requests: RequestModel[]) {
+    this.users = [];
+    users.forEach(user => {
+      let userId = requests.find(x => x.userId === user.userId && x.userId !== this.logedUser.id);
+      if(userId) {
+        user.isRequested = true;
+      }
+      if(user) {
+        this.users.push(user);
+      }
+    });
+    this.onUpdated.emit(requests);
+  }
+
+  getAllMyRequests() {
+    return this.friendsService.getAllMyRequests().toPromise();
+  }
+
+  getAllUsers() {
+    return this.usersService.getAllUsers().toPromise();
+  }
+
+  addRequest(userId: string) {
+    this.friendsService.addRequest(userId).subscribe(data => {
+      this.getAllMyRequests().then(requests => {
+        this.updateRequests(this.users, requests);
+      });
     });
   }
 

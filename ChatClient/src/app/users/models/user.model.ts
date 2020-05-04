@@ -1,5 +1,5 @@
 export class User {
-    id: string;
+    userId: string;
     email: string;
     userName: string;
     city: string;
@@ -11,4 +11,5 @@ export class User {
     previousJob: string;
     skills: [];
     university: string;
+    isRequested: boolean = false;
 }

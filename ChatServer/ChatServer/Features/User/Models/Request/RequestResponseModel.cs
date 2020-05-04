@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ChatServer.Common.Mapping;
-using ChatServer.Data.Models.User;
 
 namespace ChatServer.Features.User.Models.Request
 {

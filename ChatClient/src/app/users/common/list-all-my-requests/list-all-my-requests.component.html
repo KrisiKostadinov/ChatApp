@@ -1,0 +1,7 @@
+<div class="groups mt-4">
+    <h4 class="header text-center">My requests</h4>
+    <ul class="groups-list">
+        <li *ngFor="let request of myRequests" class="group-item">{{ request.userName }}</li>
+    </ul>
+</div>
+<app-list-all-requests></app-list-all-requests>

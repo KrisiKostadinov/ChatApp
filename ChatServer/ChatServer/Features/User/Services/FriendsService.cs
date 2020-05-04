@@ -153,7 +153,7 @@ namespace ChatServer.Features.User.Services
         {
             var requests = await this.context
                 .Requests
-                .Where(x => x.UserIdFrom == currentUserId)
+                .Where(x => x.UserId == currentUserId)
                 .To<RequestResponseModel>()
                 .ToListAsync();
 
@@ -177,6 +177,17 @@ namespace ChatServer.Features.User.Services
                 .ToListAsync();
 
             return messages;
+        }
+
+        public async Task<IEnumerable<RequestResponseModel>> ListAllMyRequests(string userId)
+        {
+            var requests = await this.context
+                .Requests
+                .Where(x => x.UserIdFrom == userId)
+                .To<RequestResponseModel>()
+                .ToListAsync();
+
+            return requests;
         }
 
         //public async Task<FriendResponseModel> ById(string currentUserId, string userId)

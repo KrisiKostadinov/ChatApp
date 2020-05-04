@@ -1,7 +1,7 @@
 <div class="groups mt-4">
   <h4 class="header">Friends</h4>
   <ul *ngIf="friends.length > 0" class="groups-list">
-    <a *ngFor="let friend of friends" class="group-item" (click)="selectFriend(friend.userId)" routerLink="/users/chat/{{friend.userId}}">{{ friend.userName }} 
+    <a *ngFor="let friend of friends" class="group-item" (click)="selectFriend(friend.userId)" routerLink="/users/chat/{{friend?.userId}}">{{ friend?.userName }} 
       <span [ngClass]="{'live-on': friend?.liveOn, 'live-off': !friend?.liveOn}">🔴</span>
     </a>
   </ul>
@@ -10,8 +10,14 @@
     <button (click)="fintFriends()" class="btn btn-primary">Find friends</button>
   </div>
   <ul class="groups-list">
-    <li class="group-item d-flex justify-content-between align-items-center" (click)="addFriend(user.userId)" *ngFor="let user of users">{{ user.userName }}
-      <button class="btn btn-link">Add friend</button>
+    <li class="group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">{{ user.userName }}
+      <div *ngIf="user.userId != logedUser.id">
+        <button *ngIf="!user.isRequested else requested" (click)="addRequest(user.userId)" class="btn btn-link">Add friend</button>
+      </div>
+      <p *ngIf="user.userId == logedUser.id">You</p>
     </li>
   </ul>
 </div>
+<ng-template #requested>
+  <p>Sended request</p>
+</ng-template>

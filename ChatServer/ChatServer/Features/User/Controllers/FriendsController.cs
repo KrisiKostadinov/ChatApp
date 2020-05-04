@@ -50,7 +50,7 @@ namespace ChatServer.Features.User.Controllers
 
         [HttpPost]
         [Route("request/{userId}")]
-        public async Task<ActionResult> AddRequest(string userId)
+        public async Task<ActionResult<bool>> AddRequest(string userId)
         {
             if (userId == null)
             {
@@ -74,10 +74,30 @@ namespace ChatServer.Features.User.Controllers
 
             if (result.Succeeded)
             {
-                return Created(nameof(AddRequest), userId);
+                return true;
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        [Route("requests/my")]
+        public async Task<IEnumerable<RequestResponseModel>> ListAllMyRequests()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var requests = await this.friendsService.ListAllMyRequests(userId);
+            return requests;
+        }
+
+        [HttpGet]
+        [Route("requests")]
+        public async Task<IEnumerable<RequestResponseModel>> ListAllRequests()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var requests = await this.friendsService.ListAllRequestsByUserId(userId);
+            return requests;
         }
 
         [HttpPost]
