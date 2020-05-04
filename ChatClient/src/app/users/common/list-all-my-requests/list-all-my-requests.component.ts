@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class ListAllMyRequestsComponent implements OnInit, OnDestroy {
 
   @Input() myRequests: RequestModel[];
+  
 
   subs: Subscription[] = [];
 
@@ -27,5 +28,9 @@ export class ListAllMyRequestsComponent implements OnInit, OnDestroy {
     })
 
     this.subs.push(myRequestsSub);
+  }
+
+  updatingFriends(isUpdating: boolean) {
+    console.log(isUpdating);
   }
 }

@@ -16,6 +16,8 @@ export class FriendsService {
   messagesPath: string = 'friends/messages';
   listAllMyRequestsPath: string = 'friends/requests/my';
   listAllRequestsPath: string = 'friends/requests';
+  addFriendPath: string = 'friends/';
+  dismissRequestPath: string = 'friends/request/';
 
   constructor(private http: HttpClient) { }
 
@@ -38,4 +40,12 @@ export class FriendsService {
   getAllRequests(): Observable<RequestModel[]> {
     return this.http.get<RequestModel[]>(environment.apiUrl + this.listAllRequestsPath);
   }
+
+  confirm(userId: string): Observable<boolean> {
+    return this.http.post<boolean>(environment.apiUrl + this.addFriendPath + userId, userId);
+  }
+
+  // dismiss(userId: string): Observable<boolean> {
+  //   return this.http.delete<boolean>(environment.apiUrl + this.dismissRequestPath + userId);
+  // }
 }

@@ -8,6 +8,7 @@
   <div class="m-2 text-center">
     <p *ngIf="friends.length === 0">No friends</p>
     <button (click)="fintFriends()" class="btn btn-primary">Find friends</button>
+    <button routerLink="/users/chat" class="mx-2 btn btn-primary">Chat room</button>
   </div>
   <ul class="groups-list">
     <li class="group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">{{ user.userName }}

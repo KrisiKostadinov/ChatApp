@@ -65,7 +65,7 @@ namespace ChatServer.Features.User.Services
 
         public async Task<Result> AddRequest(Request request)
         {
-            if (request.UserId == null || request.UserIdFrom == null)
+            if (request.UserIdTo == null || request.UserIdFrom == null)
             {
                 return Result.Failed(
                     new Error("Invalid operation", $"The ids not be null."));
@@ -73,10 +73,10 @@ namespace ChatServer.Features.User.Services
 
             var isContans = await this.context
                 .Requests
-                .Where(r => r.UserIdFrom == request.UserIdFrom && r.UserId == request.UserId)
+                .Where(r => r.UserIdFrom == request.UserIdFrom && r.UserIdTo == request.UserIdTo)
                 .FirstOrDefaultAsync();
 
-            var isFriends = await CheckForFriends(request.UserIdFrom, request.UserId);
+            var isFriends = await CheckForFriends(request.UserIdFrom, request.UserIdTo);
 
             if (isFriends != null)
             {
@@ -153,7 +153,7 @@ namespace ChatServer.Features.User.Services
         {
             var requests = await this.context
                 .Requests
-                .Where(x => x.UserId == currentUserId)
+                .Where(x => x.UserIdTo == currentUserId)
                 .To<RequestResponseModel>()
                 .ToListAsync();
 

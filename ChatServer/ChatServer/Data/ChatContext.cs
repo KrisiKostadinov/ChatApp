@@ -33,12 +33,17 @@ namespace ChatServer.Data
                 .HasKey(x => new { x.UserId, x.GroupId });
 
             builder.Entity<Request>()
-                .HasKey(x => new { x.UserId, x.UserIdFrom });
+                .HasKey(x => new { x.UserIdTo, x.UserIdFrom });
 
             builder.Entity<Request>()
                 .HasOne(x => x.UserFrom)
-                .WithMany(x => x.Requests)
-                .HasForeignKey(x => x.UserId);
+                .WithMany(x => x.RequestsFrom)
+                .HasForeignKey(x => x.UserIdFrom);
+
+            builder.Entity<Request>()
+                .HasOne(x => x.UserTo)
+                .WithMany(x => x.RequestsTo)
+                .HasForeignKey(x => x.UserIdTo);
 
             builder.Entity<Group>()
                 .HasOne(x => x.User)

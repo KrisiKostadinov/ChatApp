@@ -62,10 +62,10 @@ namespace ChatServer.Features.User.Controllers
             var request = new Request()
             {
                 UserIdFrom = userIdFrom,
-                UserId = userId,
+                UserIdTo = userId,
             };
 
-            if (request.UserId == request.UserIdFrom)
+            if (request.UserIdTo == request.UserIdFrom)
             {
                 return BadRequest($"The ids not be duplicated.");
             }
@@ -102,7 +102,7 @@ namespace ChatServer.Features.User.Controllers
 
         [HttpPost]
         [Route("{userId}")]
-        public async Task<ActionResult> AddFriendAcync(string userId)
+        public async Task<ActionResult<bool>> AddFriendAcync(string userId)
         {
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
@@ -120,7 +120,7 @@ namespace ChatServer.Features.User.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(userId);
+                return true;
             }
 
             return BadRequest(result.Errors);

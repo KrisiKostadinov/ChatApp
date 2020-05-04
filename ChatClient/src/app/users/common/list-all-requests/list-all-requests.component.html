@@ -1,6 +1,12 @@
 <div class="groups mt-4">
     <h4 class="header text-center">Requests</h4>
     <ul class="groups-list">
-        <li *ngFor="let request of requests" class="group-item">{{ request.userName }}</li>
+        <li *ngFor="let request of requests" class="group-item d-flex justify-content-between align-items-center">
+            <button class="btn btn-link" routerLink="/users/details/{{request.userId}}">{{ request.userNameFrom }}</button>
+            <div class="d-flex justify-content-end">
+                <button (click)="confirm(request.userIdFrom)" class="btn btn-link">Confirm</button>
+                <button (click)="reject(request.userIdFrom)" class="btn btn-link text-danger">Reject</button>
+            </div>
+        </li>
     </ul>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Friend } from '../../models/friend.model';
 import { FriendsService } from '../../services/friends.service';
 import { UsersService } from '../../services/users.service';
@@ -12,7 +12,7 @@ import { RequestModel } from '../../models/request-model.model';
 })
 export class ListAllFriendsComponent implements OnInit {
 
-  friends: Friend[] = [];
+  @Input() friends: Friend[] = [];
   users: User[] = [];
   logedUser: any;
   
@@ -42,7 +42,7 @@ export class ListAllFriendsComponent implements OnInit {
   updateRequests(users: User[], requests: RequestModel[]) {
     this.users = [];
     users.forEach(user => {
-      let userId = requests.find(x => x.userId === user.userId && x.userId !== this.logedUser.id);
+      let userId = requests.find(x => x.userIdTo === user.userId && x.userIdTo !== this.logedUser.id);
       if(userId) {
         user.isRequested = true;
       }

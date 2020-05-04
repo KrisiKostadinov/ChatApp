@@ -77,10 +77,12 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getAllMyMessages(friendUserId: string = null) {
-    return this.friendsService.gerAllMyMessages(this.user.userId, friendUserId).toPromise();
+    return this.friendsService.gerAllMyMessages(this.user.id, friendUserId).toPromise();
   }
 
   ngOnInit(): void {
+    console.log(this.messages);
+
     this.user = JSON.parse(localStorage.getItem('user'));
 
     this.initialUserId = this.route.snapshot.params['id'];
@@ -108,6 +110,8 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.friends[i].connectionId = connectionId;
           this.currentFriend.liveOn = true;
           this.currentFriend.connectionId = connectionId;
+
+          console.log(this.friends);
         }
       }
     });
@@ -150,5 +154,14 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   updatingMyRequests(requests: RequestModel[]) {
     this.updatedMyRequests = requests;
+  }
+
+  updatingFriends(isUpdating: boolean) {
+    if(isUpdating) {
+      this.getFriends().then(data => {
+        this.friends = data;
+        console.log('updated: ', this.friends);
+      });
+    }
   }
 }

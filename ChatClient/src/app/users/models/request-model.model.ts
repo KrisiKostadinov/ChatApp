@@ -1,4 +1,6 @@
 export class RequestModel {
-    userName: string;
-    userId: string;
+    userNameFrom: string;
+    userIdFrom: string;
+    userNameTo: string;
+    userIdTo: string;
 }
