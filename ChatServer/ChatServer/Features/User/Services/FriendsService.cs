@@ -7,6 +7,7 @@ using ChatServer.Data.Models.User;
 using ChatServer.Data.Models.User.Request;
 using ChatServer.Features.User.Models.Friend;
 using ChatServer.Features.User.Models.Request;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,8 @@ namespace ChatServer.Features.User.Services
 
             if (checkForFriends != null)
             {
+                await this.DismissRequest(friend.CurrentUserId, friend.OtherUserId);
+
                 return Result.Failed(
                     new Error("Invalid operation", $"These ids are friends."));
             }
@@ -190,17 +193,23 @@ namespace ChatServer.Features.User.Services
             return requests;
         }
 
-        //public async Task<FriendResponseModel> ById(string currentUserId, string userId)
-        //{
-        //    var friend = await this.context
-        //        .Friends
-        //        .Where(x => x.OtherUserId == userId ||
-        //            x.CurrentUserId == userId &&
-        //            x.CurrentUserId == currentUserId ||
-        //            x.OtherUserId == currentUserId)
-        //        .To<FriendResponseModel>()
-        //        .FirstOrDefaultAsync();
-        //    return friend;
-        //}
+        public async Task<Result> DismissRequest(string currentUserId, string userId)
+        {
+            if (userId == null)
+            {
+                return Result.Failed(
+                    new Error("Invalid Operation", "The id not be null."));
+            }
+
+            var request = await this.context
+                .Requests
+                .Where(x => x.UserIdFrom == userId && x.UserIdTo == currentUserId)
+                .FirstOrDefaultAsync();
+
+            this.context.Remove(request);
+
+            await this.context.SaveChangesAsync();
+            return Result.Success;
+        }
     }
 }

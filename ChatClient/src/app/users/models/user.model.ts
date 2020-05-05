@@ -13,4 +13,5 @@ export class User {
     skills: [];
     university: string;
     isRequested: boolean = false;
+    isFriends?: boolean = false;
 }

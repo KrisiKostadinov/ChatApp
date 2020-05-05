@@ -102,7 +102,7 @@ namespace ChatServer.Hubs
             var otherUser = CurrentConnections.Where(x => x.UserId != this.Context.UserIdentifier).FirstOrDefault();
             var currentUser = CurrentConnections.Where(x => x.UserId == this.Context.UserIdentifier).FirstOrDefault();
 
-            if (otherUser != null)
+            if (otherUser != null && currentUser != null)
             {
                 await Clients.Caller.SendAsync("UserConnected", otherUser.ConnectionId, otherUser.UserId);
                 await Clients.Client(otherUser.ConnectionId).SendAsync("UserConnected", currentUser.ConnectionId, currentUser.UserId);

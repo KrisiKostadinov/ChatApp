@@ -111,7 +111,7 @@ export class ChatUsersComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.currentFriend.liveOn = true;
           this.currentFriend.connectionId = connectionId;
 
-          console.log(this.friends);
+          console.log(this.currentFriend);
         }
       }
     });

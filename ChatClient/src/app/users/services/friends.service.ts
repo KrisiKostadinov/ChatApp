@@ -45,7 +45,7 @@ export class FriendsService {
     return this.http.post<boolean>(environment.apiUrl + this.addFriendPath + userId, userId);
   }
 
-  // dismiss(userId: string): Observable<boolean> {
-  //   return this.http.delete<boolean>(environment.apiUrl + this.dismissRequestPath + userId);
-  // }
+  dismiss(userId: string): Observable<boolean> {
+    return this.http.delete<boolean>(environment.apiUrl + this.dismissRequestPath + userId);
+  }
 }

@@ -166,8 +166,22 @@ namespace ChatServer.Features.User.Controllers
         public async Task<IEnumerable<MessageResponseModel>> GetAllMyMessages(string firstUserId, string secondUserId)
         {
             var messages = await this.friendsService.GetAllMyMessages(firstUserId, secondUserId);
-
             return messages;
+        }
+
+        [HttpDelete]
+        [Route("request/{userId}")]
+        public async Task<ActionResult<bool>> DismissRequest(string userId)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await this.friendsService.DismissRequest(currentUserId, userId);
+
+            if (result.Succeeded)
+            {
+                return true;
+            }
+
+            return BadRequest(result.Errors);
         }
     }
 }

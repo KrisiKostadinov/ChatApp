@@ -18,6 +18,8 @@ namespace ChatServer.Features.User.Models.Friend
 
         public bool IsRequested { get; set; }
 
+        public bool IsFriends { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             var map = configuration.CreateMap<AboutUser, FriendResponseModel>();

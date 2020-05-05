@@ -21,7 +21,7 @@ namespace ChatServer.Features.User.Services
 
         Task<IEnumerable<RequestResponseModel>> ListAllRequestsByUserId(string currentUserId);
 
-        //Task<FriendResponseModel> ById(string currentUserId, string userId);
+        Task<Result> DismissRequest(string currentUserId, string userId);
 
         Task<Result> AddMessageOfUser(Message message);
 

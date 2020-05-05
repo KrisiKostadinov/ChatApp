@@ -11,6 +11,7 @@ import { TokenInterceptor } from './common/token.interceptor';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { SharedService } from './common/services/shared.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ToastrModule } from 'ngx-toastr';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    SharedService,
   ],
   bootstrap: [AppComponent]
 })
