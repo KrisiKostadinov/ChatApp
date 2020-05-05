@@ -58,15 +58,9 @@ namespace ChatServer.Features.Group.Controllers
         [HttpGet]
         [Route("all/{userId}")]
         [Route("all")]
-        public async Task<ActionResult<IEnumerable<GroupResponseModel>>> AllByUserId(string userId)
+        public async Task<ActionResult<IEnumerable<GroupResponseModel>>> All()
         {
-            if (userId == null)
-            {
-                userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            }
-
-            var groups = await this.groupService.AllByUserId(userId);
-
+            var groups = await this.groupService.All();
             return groups.ToList();
 
         }

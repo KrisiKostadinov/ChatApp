@@ -18,8 +18,14 @@
 .groups {
     border: 1px solid #2a68da;
     border-radius: 2px;
-    overflow: hidden;
+    overflow-y: scroll;
+    min-height: 260px;
+    max-height: 260px;
     box-shadow: 0 0 2px #cccccc;
+}
+
+.groups a {
+    text-decoration: none;
 }
 
 .groups .header {
@@ -28,6 +34,19 @@
     padding: 0.7em 0;
     margin: 0;
     text-align: center;
+}
+
+form button {
+    padding: 0.7em;
+    background-color: #2a68da;
+    border: none;
+    color: #ffffff;
+}
+
+.groups form input {
+    padding: 1em;
+    border: none;
+    outline: none;
 }
 
 .groups .groups-list {

@@ -6,8 +6,14 @@
             <li class="group-item d-flex justify-content-between">Users: {{ group.users?.length }}
                 <button class="btn btn-outline-primary" value="Show all">Show all</button>
             </li>
-            <li class="group-item">{{ group.description }}</li>
-            <li class="group-item">Email: {{ group.email }}</li>
+            <li class="group-item d-flex justify-content-between">
+                <span>Description: </span>
+                <span>{{ group.description ? group.description : 'No'  }}</span>
+            </li>
+            <li class="group-item d-flex justify-content-between">
+                <span>Email:</span>
+                <span>{{ group.email ? group.email : 'No' }}</span>
+            </li>
         </ul>
     </div>
     <div class="btn-group">

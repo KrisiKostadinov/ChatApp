@@ -30,7 +30,7 @@ export class ListAllUsersComponent implements OnInit {
     });
   }
 
-  search(text: string) {
+  search(text: string = null) {
     this.displayedUsers = this.users.filter(x => x.userName.includes(text));
   }
 }

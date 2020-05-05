@@ -1,9 +1,7 @@
 <div class="groups mt-4">
   <h4 *ngIf="friends" class="header">Friends {{ friends.length }}</h4>
   <ul *ngIf="friends.length > 0" class="groups-list">
-    <a *ngFor="let friend of friends" class="group-item" (click)="selectFriend(friend.userId)" routerLink="/users/chat/{{friend?.userId}}">{{ friend?.userName }} 
-      <span [ngClass]="{'live-on': friend?.liveOn, 'live-off': !friend?.liveOn}">🔴</span>
-    </a>
+    <a *ngFor="let friend of friends" class="group-item" (click)="selectFriend(friend.userId)" routerLink="/users/chat/{{friend?.userId}}">{{ friend?.userName }}</a>
   </ul>
   <div class="m-2 text-center">
     <p *ngIf="friends.length === 0">No friends</p>

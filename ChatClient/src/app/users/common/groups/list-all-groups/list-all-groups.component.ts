@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GroupsService } from '../groups.service';
 import { Group } from '../models/group.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SharedService } from 'src/app/common/services/shared.service';
+import { User } from 'src/app/users/models/user.model';
 
 @Component({
   selector: 'app-list-all-groups',
@@ -10,10 +12,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ListAllGroupsComponent implements OnInit {
 
-  groups: Group[] = [];
+  myGroupsList: Group[] = [];
   displayedGroups: Group[] = [];
+  allGroupsList: Group[] = [];
 
   searchForm: FormGroup;
+  @Input() myGroups;
+  
+  user: User;
 
   constructor(
     public groupsService: GroupsService,
@@ -24,13 +30,37 @@ export class ListAllGroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.groupsService.all().subscribe(data => {
-      this.groups = data;
-      this.displayedGroups = this.groups;
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.getAllGroups().then(data => {
+      this.allGroupsList = data;
+      this.myGroupsList = this.getMyGroups();
+      this.checkForGroupsList();
     });
+  }
+  
+  checkForGroupsList() {
+    if(this.myGroups === true) {
+      this.displayedGroups = this.myGroupsList;
+    } else {
+      this.displayedGroups = this.allGroupsList;
+    }
+    
+    return this.myGroups;
+  }
+
+  getAllGroups() {
+    return this.groupsService.all().toPromise();
+  }
+  
+  getMyGroups() {
+    return this.allGroupsList.filter(x => x.ownerId === this.user.id);
   }
 
   search(text: string) {
-    this.displayedGroups = this.groups.filter(x => x.subject.includes(text));
+    if(this.myGroups) {
+      this.displayedGroups = this.myGroupsList.filter(x => x.subject.includes(text));
+    } else {
+      this.displayedGroups = this.allGroupsList.filter(x => x.subject.includes(text));
+    }
   }
 }

@@ -1,13 +1,12 @@
 <div class="groups mt-4">
     <h4 class="header">Groups</h4>
+    <form [formGroup]="searchForm" class="d-flex justify-content-between">
+      <input class="w-100" type="text" (input)="search($event.target.value)" formControlName="text" placeholder="Search groups...">
+    </form>
     <ul class="groups-list">
       <a *ngFor="let group of displayedGroups" class="group-item" routerLink="/groups/details/{{group.id}}">{{ group.subject }}</a>
     </ul>
     <div class="m-2 text-center" *ngIf="displayedGroups.length === 0">
       <p>No groups</p>
     </div>
-    <form [formGroup]="searchForm" class="d-flex justify-content-between">
-      <input class="w-100" type="text" (input)="search($event.target.value)" formControlName="text" placeholder="Search groups...">
-      <button class="btn-primary">Search</button>
-    </form>
 </div>

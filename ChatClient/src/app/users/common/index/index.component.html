@@ -4,10 +4,15 @@
             <app-list-all-users></app-list-all-users>
         </div>
         <div class="col-lg-4">
-            <app-list-all-groups></app-list-all-groups>
+            <app-list-all-groups [myGroups]="true"></app-list-all-groups>
         </div>
         <div class="col-lg-4">
             <app-list-all-friends></app-list-all-friends>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 list">
+            <app-list-all-groups [myGroups]="false"></app-list-all-groups>
         </div>
     </div>
 </div>

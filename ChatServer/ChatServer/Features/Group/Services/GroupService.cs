@@ -66,10 +66,10 @@ namespace ChatServer.Features.Group.Services
             return Result.Success;
         }
 
-        public async Task<IEnumerable<GroupResponseModel>> AllByUserId(string userId)
+        public async Task<IEnumerable<GroupResponseModel>> All()
         {
             var groups = await this.context
-                .Groups.Where(g => g.OwnerId == userId)
+                .Groups
                 .To<GroupResponseModel>()
                 .ToListAsync();
 
