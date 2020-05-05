@@ -1,6 +1,7 @@
 <div class="groups mt-4">
     <h4 class="header text-center">Requests</h4>
     <ul class="groups-list">
+        <li *ngIf="requests.length === 0" class="group-item text-center">No requests</li>
         <li *ngFor="let request of requests" class="group-item d-flex justify-content-between align-items-center">
             <button class="btn btn-link" routerLink="/users/details/{{request.userId}}">{{ request.userNameFrom }}</button>
             <div class="d-flex justify-content-end">

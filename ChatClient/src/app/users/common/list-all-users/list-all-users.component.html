@@ -1,10 +1,10 @@
 <div class="groups mt-4">
   <h4 class="header">Other users</h4>
   <ul class="groups-list">
-    <a *ngFor="let user of users" class="group-item" routerLink="/users/details/{{user.userId}}">{{ user.userName }}</a>
+    <a *ngFor="let user of displayedUsers" class="group-item" routerLink="/users/details/{{user.userId}}">{{ user.userName }}</a>
   </ul>
   <form [formGroup]="searchForm" (ngSubmit)="search()" class="d-flex justify-content-between">
-    <input class="w-100" type="text" formControlName="search" placeholder="Search users...">
+    <input class="w-100" type="text" (input)="search($event.target.value)" formControlName="search" placeholder="Search users...">
     <button class="btn-primary">Search</button>
   </form>
 </div>

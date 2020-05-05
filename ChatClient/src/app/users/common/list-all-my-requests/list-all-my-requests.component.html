@@ -1,6 +1,7 @@
-<div class="groups mt-4">
+<div *ngIf="requests" class="groups mt-4">
     <h4 class="header text-center">My requests</h4>
     <ul class="groups-list">
+        <li *ngIf="myRequests.length === 0" class="group-item text-center">No requests</li>
         <li *ngFor="let request of myRequests" class="group-item">{{ request.userNameTo }}</li>
     </ul>
 </div>

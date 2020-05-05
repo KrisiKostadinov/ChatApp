@@ -10,9 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class ListAllMyRequestsComponent implements OnInit, OnDestroy {
 
-  @Input() myRequests: RequestModel[];
-  
-
+  @Input() myRequests: RequestModel[] = [];
   subs: Subscription[] = [];
 
   constructor(private friendsService: FriendsService) { }

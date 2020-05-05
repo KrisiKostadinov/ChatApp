@@ -1,3 +1,31 @@
 .groups {
     min-height: 200px;
+    position: relative;
+}
+
+ul a {
+    cursor: pointer;
+}
+
+form {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+form button {
+    padding: 0.7em;
+    background-color: #2a68da;
+    border: none;
+    color: #ffffff;
+}
+
+form input {
+    padding-left: 1em;
+    border: none;
+}
+
+input,
+button {
+    outline: none;
 }

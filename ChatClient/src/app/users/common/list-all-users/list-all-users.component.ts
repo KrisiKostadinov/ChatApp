@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class ListAllUsersComponent implements OnInit {
 
   users: User[];
+  displayedUsers: User[];
 
   searchForm: FormGroup;
 
@@ -25,10 +26,11 @@ export class ListAllUsersComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getAllUsers().subscribe(data => {
       this.users = data;
+      this.displayedUsers = this.users;
     });
   }
 
-  search() {
-    console.log(this.searchForm.value);
+  search(text: string) {
+    this.displayedUsers = this.users.filter(x => x.userName.includes(text));
   }
 }

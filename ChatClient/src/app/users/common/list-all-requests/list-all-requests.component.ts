@@ -14,7 +14,8 @@ import { SharedService } from 'src/app/common/services/shared.service';
 })
 export class ListAllRequestsComponent implements OnInit {
 
-  requests: RequestModel[];
+  requests: RequestModel[] = [];
+  
   subs: Subscription[] = [];
   user: User;
 
